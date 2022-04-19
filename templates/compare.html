@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+    {% if message %}
+      <div class="alert alert-{{ message_category }}" dir="rtl">
+        {{ message }}
+      </div>
+    {% endif %}
+
+	<!-- SECTION -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-8">
+					
+				<div class="col-md-4">
+					<!-- social widget -->
+					<div class="aside-widget">
+						<div class="section-title">
+							<h2 class="title" style="font-size: 22px;">Social Media</h2>
+						</div>
+						<div class="social-widget">
+							<ul>
+								<li>
+									<a href="https://www.facebook.com/LogamyTech/" class="facebook" target="_blank">
+										<i class="fa fa-facebook"></i>
+										<span>4.7K<br>Followers</span>
+									</a>
+								</li>
+								<li>
+									<a href="https://twitter.com/LogamyTech/" class="twitter" target="_blank">
+										<i class="fa fa-twitter"></i>
+										<span>2.7K<br>Followers</span>
+									</a>
+								</li>
+								<li>
+									<a href="https://www.youtube.com/channel/UCLIpr82f48yYeTFVoW-FJfw" class="youtube" target="_blank">
+										<i class="fa fa-youtube"></i>
+										<span>5K<br>Subscribes</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- /social widget -->
+
+					<!-- newsletter widget -->
+					<div class="aside-widget">
+						<h3 class="footer-title" style="font-size: 22px;">الاشتراك في القائمة البريدية</h3>
+						<div class="newsletter-widget">
+							<form action="{{url_for('mailList')}}" method="POST" enctype="multipart/form-data">
+								<p>اشترك الآن ليصلك جديدنا من المراجعات والمقالات والعروض المميزة.</p>
+								<input class="input" type="email" name="email" placeholder="قم بإدخال الايميل الخاص بك">
+								<button class="btn btn-primary" type="submit" style="font-size: 20px; border:none; font-weight: bold;">اشترك الآن</button>
+							</form>
+						</div>
+					</div>
+					</div>
+					<!-- /newsletter widget -->
+				</div>
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /SECTION -->
+
+{% endblock %}
+

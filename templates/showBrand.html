@@ -1,0 +1,248 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" dir="rtl">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- PAGE HEADER -->
+	<div class="page-header">
+		<div class="page-header-bg" style="background:no-repeat center url('{{url_for('static', filename='Brands/%s' % selectedBrand.image)}}');" data-stellar-background-ratio="0.5"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-offset-1 col-md-10 text-center">
+					<h1 class="text-uppercase">{{selectedBrand.name_ar}}</h1>
+					{% if current_user.is_authenticated %}
+		                {% if current_user.super_user == 'True' %}
+		                    <a class="btn btn-info" href="{{url_for('editBrand', brand_id=selectedBrand.id)}}">تعديل</a>
+		                    <a class="btn btn-danger" href="{{url_for('deleteBrand', brand_id=selectedBrand.id)}}">حذف</a>
+		                {% endif %}
+		            {% endif %}
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	<!-- /PAGE HEADER -->
+
+	<!-- SECTION -->
+	<div class="section">
+
+		<!-- container -->
+		<div class="container">
+
+			<!-- row -->
+			<div class="row">
+				{% if current_user.is_authenticated %}
+		            {% if current_user.super_user == 'True' %}
+		                <a class="btn btn-success my-5" href="{{url_for('newBrand')}}" style="-ms-flex: 0 0 70%; flex: 0 0 70%; max-width: 70%;"><h3 style="color: white; font-size: 30px;">إضافة علامة تجارية جديدة</h3></a>
+		            {% endif %}
+		        {% endif %}
+		        
+				<div class="col-md-8">
+
+					{% if current_user.is_authenticated %}
+				        {% if current_user.new_laptop_review == 'True' or current_user.new_phone_review == 'True' %}
+				          <div class="row justify-content-around" dir="rtl" style="display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; width: 100%; margin: 20px auto;">
+				            <a class="btn btn-success col-sm-8 col-md-4" href="{{url_for('newReview')}}" style="-ms-flex: 0 0 70%; flex: 0 0 70%; max-width: 70%;"><h3 style="color: white; font-size: 30px;">إضافة مراجعة جديدة</h3></a>
+				          </div>
+				        {% endif %}
+				    {% endif %}
+			        {% if all_reviews.items %}
+						<!-- post -->
+						<div class="post post-thumb">
+							<a class="post-img" href="{{url_for('showReview', review_id=all_reviews.items[0].id, review_url='مراجعة_%s' % all_reviews.items[0].name_ar.replace(' ','_'))}}"><img src="{{url_for('static', filename='Reviews/%s'% all_reviews.items[0].image)}}" alt="{{ all_reviews.items[0].name }} - {{ all_reviews.items[0].name_ar }}"></a>
+							<div class="post-body">
+								<div class="post-category">
+									<form action="{{url_for('reviews', checkbox_categories=checkbox_categories)}}" method="POST" enctype="multipart/form-data"><button name="Category" type="submit" value="{{(Categories.query.filter_by(id=all_reviews.items[0].category_id).one()).id}}" style="font-size: 20px; background: none; border:none; color: #007bff; font-weight: bold; padding-right: 0;">مراجعات {{(Categories.query.filter_by(id=all_reviews.items[0].category_id).one()).name_ar}}</button></form>
+								</div>
+								<h3 class="post-title title-lg"><a href="{{url_for('showReview', review_id=all_reviews.items[0].id, review_url='مراجعة_%s' % all_reviews.items[0].name_ar.replace(' ','_'))}}">مراجعة {{ all_reviews.items[0].name_ar }}</a></h3>
+								<ul class="post-meta">
+									<li><a href="{{url_for('showAuthor', author_id=(Users.query.filter_by(id=all_reviews.items[0].author_id).one()).id)}}" style="font-size: 16px;">{{(Users.query.filter_by(id=all_reviews.items[0].author_id).one()).full_name}}</a></li>
+									<li style="font-size:14px; font-weight: bold;" dir="ltr">{{ all_reviews.items[0].publish_date.strftime('%d %B %Y') }}</li>
+								</ul>
+							</div>
+						</div>
+						<!-- /post -->
+
+						<div class="row">
+							{% if all_reviews.items[1] %}
+							<!-- post -->
+							<div class="col-md-6">
+								<div class="post">
+									<a class="post-img" href="{{url_for('showReview', review_id=all_reviews.items[1].id, review_url='مراجعة_%s' % all_reviews.items[1].name_ar.replace(' ','_'))}}"><img src="{{url_for('static', filename='Reviews/%s'% all_reviews.items[1].image)}}" alt="{{ all_reviews.items[1].name }} - {{ all_reviews.items[1].name_ar }}"></a>
+									<div class="post-body">
+										<div class="post-category">
+											<form action="{{url_for('reviews', checkbox_categories=checkbox_categories)}}" method="POST" enctype="multipart/form-data"><button name="Category" type="submit" value="{{(Categories.query.filter_by(id=all_reviews.items[1].category_id).one()).id}}" style="font-size: 20px; background: none; border:none; color: #007bff; font-weight: bold; padding-right: 0;">مراجعات {{(Categories.query.filter_by(id=all_reviews.items[1].category_id).one()).name_ar}}</button></form>
+										</div>
+										<h3 class="post-title"><a href="{{url_for('showReview', review_id=all_reviews.items[1].id, review_url='مراجعة_%s' % all_reviews.items[1].name_ar.replace(' ','_'))}}">مراجعة {{ all_reviews.items[1].name_ar }}</a></h3>
+										<ul class="post-meta">
+											<li><a href="{{url_for('showAuthor', author_id=(Users.query.filter_by(id=all_reviews.items[1].author_id).one()).id)}}" style="font-size: 16px;">{{(Users.query.filter_by(id=all_reviews.items[1].author_id).one()).full_name}}</a></li>
+											<li style="font-size:14px; font-weight: bold;" dir="ltr">{{ all_reviews.items[1].publish_date.strftime('%d %B %Y') }}</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<!-- /post -->
+							{% endif %}
+
+							{% if all_reviews.items[2] %}
+							<!-- post -->
+							<div class="col-md-6">
+								<div class="post">
+									<a class="post-img" href="{{url_for('showReview', review_id=all_reviews.items[2].id, review_url='مراجعة_%s' % all_reviews.items[2].name_ar.replace(' ','_'))}}"><img src="{{url_for('static', filename='Reviews/%s'% all_reviews.items[2].image)}}" alt="{{ all_reviews.items[2].name }} - {{ all_reviews.items[2].name_ar }}"></a>
+									<div class="post-body">
+										<div class="post-category">
+											<form action="{{url_for('reviews', checkbox_categories=checkbox_categories)}}" method="POST" enctype="multipart/form-data"><button name="Category" type="submit" value="{{(Categories.query.filter_by(id=all_reviews.items[2].category_id).one()).id}}" style="font-size: 20px; background: none; border:none; color: #007bff; font-weight: bold; padding-right: 0;">مراجعات {{(Categories.query.filter_by(id=all_reviews.items[2].category_id).one()).name_ar}}</button></form>
+										</div>
+										<h3 class="post-title"><a href="{{url_for('showReview', review_id=all_reviews.items[2].id, review_url='مراجعة_%s' % all_reviews.items[2].name_ar.replace(' ','_'))}}">مراجعة {{ all_reviews.items[2].name_ar }}</a></h3>
+										<ul class="post-meta">
+											<li><a href="{{url_for('showAuthor', author_id=(Users.query.filter_by(id=all_reviews.items[2].author_id).one()).id)}}" style="font-size: 16px;">{{(Users.query.filter_by(id=all_reviews.items[2].author_id).one()).full_name}}</a></li>
+											<li style="font-size:14px; font-weight: bold;" dir="ltr">{{ all_reviews.items[2].publish_date.strftime('%d %B %Y') }}</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<!-- /post -->
+							{% endif %}
+
+							<div class="clearfix visible-md visible-lg"></div>
+
+							{% if all_reviews.items[3] %}
+							<!-- post -->
+							<div class="col-md-6">
+								<div class="post">
+									<a class="post-img" href="{{url_for('showReview', review_id=all_reviews.items[3].id, review_url='مراجعة_%s' % all_reviews.items[3].name_ar.replace(' ','_'))}}"><img src="{{url_for('static', filename='Reviews/%s'% all_reviews.items[3].image)}}" alt="{{ all_reviews.items[3].name }} - {{ all_reviews.items[3].name_ar }}"></a>
+									<div class="post-body">
+										<div class="post-category">
+											<form action="{{url_for('reviews', checkbox_categories=checkbox_categories)}}" method="POST" enctype="multipart/form-data"><button name="Category" type="submit" value="{{(Categories.query.filter_by(id=all_reviews.items[3].category_id).one()).id}}" style="font-size: 20px; background: none; border:none; color: #007bff; font-weight: bold; padding-right: 0;">مراجعات {{(Categories.query.filter_by(id=all_reviews.items[3].category_id).one()).name_ar}}</button></form>
+										</div>
+										<h3 class="post-title"><a href="{{url_for('showReview', review_id=all_reviews.items[3].id, review_url='مراجعة_%s' % all_reviews.items[3].name_ar.replace(' ','_'))}}">مراجعة {{ all_reviews.items[3].name_ar }}</a></h3>
+										<ul class="post-meta">
+											<li><a href="{{url_for('showAuthor', author_id=(Users.query.filter_by(id=all_reviews.items[3].author_id).one()).id)}}" style="font-size: 16px;">{{(Users.query.filter_by(id=all_reviews.items[3].author_id).one()).full_name}}</a></li>
+											<li style="font-size:14px; font-weight: bold;" dir="ltr">{{ all_reviews.items[3].publish_date.strftime('%d %B %Y') }}</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<!-- /post -->
+							{% endif %}
+
+							{% if all_reviews.items[4] %}
+							<!-- post -->
+							<div class="col-md-6">
+								<div class="post">
+									<a class="post-img" href="{{url_for('showReview', review_id=all_reviews.items[4].id, review_url='مراجعة_%s' % all_reviews.items[4].name_ar.replace(' ','_'))}}"><img src="{{url_for('static', filename='Reviews/%s'% all_reviews.items[4].image)}}" alt="{{ all_reviews.items[4].name }} - {{ all_reviews.items[4].name_ar }}"></a>
+									<div class="post-body">
+										<div class="post-category">
+											<form action="{{url_for('reviews', checkbox_categories=checkbox_categories)}}" method="POST" enctype="multipart/form-data"><button name="Category" type="submit" value="{{(Categories.query.filter_by(id=all_reviews.items[4].category_id).one()).id}}" style="font-size: 20px; background: none; border:none; color: #007bff; font-weight: bold; padding-right: 0;">مراجعات {{(Categories.query.filter_by(id=all_reviews.items[4].category_id).one()).name_ar}}</button></form>
+										</div>
+										<h3 class="post-title"><a href="{{url_for('showReview', review_id=all_reviews.items[4].id, review_url='مراجعة_%s' % all_reviews.items[4].name_ar.replace(' ','_'))}}">مراجعة {{ all_reviews.items[4].name_ar }}</a></h3>
+										<ul class="post-meta">
+											<li><a href="{{url_for('showAuthor', author_id=(Users.query.filter_by(id=all_reviews.items[4].author_id).one()).id)}}" style="font-size: 16px;">{{(Users.query.filter_by(id=all_reviews.items[4].author_id).one()).full_name}}</a></li>
+											<li style="font-size:14px; font-weight: bold;" dir="ltr">{{ all_reviews.items[4].publish_date.strftime('%d %B %Y') }}</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<!-- /post -->
+							{% endif %}
+						</div>
+					<!-- post -->
+					{% for review in all_reviews.items[5:] %}
+					<div style="display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; margin-bottom: 30px;">
+						<a href="{{url_for('showReview', review_id=review.id, review_url='مراجعة_%s' % review.name_ar.replace(' ','_'))}}" style="-ms-flex: 0 0 35%; flex: 0 0 35%; max-width: 35%;"><img src="{{url_for('static', filename='Reviews/%s'% review.image)}}" alt="{{ review.name }} - {{ review.name_ar }}" style="width: 100%;"></a>
+						<div style="-ms-flex: 0 0 65%; flex: 0 0 65%; max-width: 65%; padding-right: 20px;">
+							<div class="post-category">
+								<form action="{{url_for('reviews', checkbox_categories=checkbox_categories)}}" method="POST" enctype="multipart/form-data"><button name="Category" type="submit" value="{{(Categories.query.filter_by(id=review.category_id).one()).id}}" style="font-size: 20px; background: none; border:none; color: #007bff; font-weight: bold; padding-right: 0;">مراجعات {{(Categories.query.filter_by(id=review.category_id).one()).name_ar}}</button></form>
+							</div>
+							<h3 class="post-title" style="margin-bottom: 0;"><a href="{{url_for('showReview', review_id=review.id, review_url='مراجعة_%s' % review.name_ar.replace(' ','_'))}}" style="font-size: 22px;">مراجعة {{ review.name_ar }}</a></h3>
+							<ul class="post-meta" style="margin: 5px 0;">
+								<li><a href="{{url_for('showAuthor', author_id=(Users.query.filter_by(id=review.author_id).one()).id)}}" style="font-size: 16px;">{{(Users.query.filter_by(id=review.author_id).one()).full_name}}</a></li>
+								<li style="font-size:14px; font-weight: bold;" dir="ltr">{{ review.publish_date.strftime('%d %B %Y') }}</li>
+							</ul>
+							<p style="font-size: 16px; display: block; /* or inline-block */ text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; max-height: 5.6em; line-height: 1.8em">{{ review.description }}</p>
+						</div>
+					</div>
+					{% endfor %}
+					<!-- /post -->
+
+
+
+					<div class="section-row loadmore text-center">
+						<!-- <a href="#" class="primary-button">Load More</a> -->
+						<form action="{{url_for('reviews')}}" method="POST" enctype="multipart/form-data" class="search-box mt-5" ><button class="btn btn-primary" type="submit" name="Brand" value="{{selectedBrand.id}}" style="font-size: 20px;">مشاهدة جميع مراجعات {{selectedBrand.name_ar}}</button></form>
+					</div>
+					{% else %}
+					<a href="{{url_for('reviews')}}" class="text-center" style="background: #EEE; margin-top: 50px;" dir="rtl">
+	                	<div class="p-4" style="width: 100%; border: 4px dashed #b6b6b6; font: 30px bold; color: gray; padding: 20px;">
+	                		لا توجد نتائج تطابق المواصفات المختارة.<br>
+	                		إضغط على هذه الرسالة للرجوع لصفحة المراجعات 
+	                	</div>
+	                </a>
+					{% endif %}
+				</div>
+
+
+
+
+				<div class="col-md-4">
+
+					<!-- ad widget-->
+					<!-- <div class="aside-widget text-center">
+						<a href="#" style="display: inline-block;margin: auto;">
+							<img class="img-responsive" src="./img/ad-3.jpg" alt="">
+						</a>
+					</div> -->
+					<!-- /ad widget -->
+
+
+					<div class="aside-widget">
+						<div class="section-title">
+							<h2 class="title" style="font-size: 22px;">عروض مميزة من {{selectedBrand.name_ar}}</h2>
+						</div>
+						<!-- post -->
+						{% for offer in some_offers %}
+						<div style="display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; margin-bottom: 30px; -ms-flex-align: center !important; align-items: center !important;">
+							<a href="{{offer.url}}" style="-ms-flex: 0 0 35%; flex: 0 0 35%; max-width: 35%;"><img src="{{offer.image}}" alt="{{offer.name_ar}} - {{offer.name}}" style="width: 80%"></a>
+							<div style="-ms-flex: 0 0 65%; flex: 0 0 65%; max-width: 65%;">
+								<header class="card-title text-center" style="font-size: 16px; font-weight: bold; color: black; display: block; /* or inline-block */ text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; max-height: 3.6em; line-height: 1.8em" dir="rtl"><a href="{{offer.url}}">{{offer.name_ar}}</a></header>
+								<header class="text-primary text-center"><h4 class="font-weight-bold" style="color: #007bff; margin-top: 15px;" dir="ltr">{{ "{:,.2f}".format(round(float(offer.price),2)) }} SAR</h4></header>
+								<div class="container-fluid">
+                                    <section class="">
+                                        <img src="{{url_for('static', filename='%s' % (Markets.query.filter_by(id=offer.market_id).one()).cover)}}" style="width: 100%;">
+                                    </section>
+                                </div>
+							</div>
+						</div>
+						{% endfor %}
+						<!-- /post -->
+						<form action="{{url_for('offers', checkbox_brands=checkbox_brands)}}" method="POST" enctype="multipart/form-data"><button class="btn btn-primary" type="submit" name="Brand" value="{{selectedBrand.id}}" style="font-size: 20px;">شاهدة جميع عروض {{selectedBrand.name_ar}}</button></form>
+
+					</div>
+
+
+					<!-- Ad widget -->
+					<!-- <div class="aside-widget text-center">
+						<a href="#" style="display: inline-block;margin: auto;">
+							<img class="img-responsive" src="./img/ad-1.jpg" alt="">
+						</a>
+					</div> -->
+					<!-- /Ad widget -->
+				</div>
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /SECTION -->
+{% endblock %}
+

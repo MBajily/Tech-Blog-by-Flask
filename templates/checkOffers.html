@@ -1,0 +1,110 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+<div class="">
+
+	{% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" dir="rtl">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+    <form action="{{url_for('checkOffers')}}" method="POST" enctype="multipart/form-data" class="search-box mt-5" >
+
+    <div class="row">
+      <div class=" col-12 mb-5 bg-white div pt-5">
+
+
+        {% if current_user.is_authenticated %}
+          {% if current_user.super_user == 'True' %}
+            <div class="row justify-content-around" style="display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; width: 100%; margin: 40px auto;" dir="rtl">
+              <a class="btn btn-success col-5" href="{{url_for('newOffer')}}" style="-ms-flex: 0 0 30%; flex: 0 0 30%; max-width: 30%; margin: 10px;"><h3 style="color: white; font-size: 20px; width: 100%;">إضافة عرض جديد</h3></a>
+              <a class="btn btn-primary col-3" href="{{url_for('checkAllOffers')}}" style="-ms-flex: 0 0 30%; flex: 0 0 30%; max-width: 30%; margin: 10px;"><h3 style="color: white; font-size: 20px; width: 100%;">تأكيد الكل</h3></a>
+              <a class="btn btn-danger col-3" href="{{url_for('uncheckAllOffers')}}" style="-ms-flex: 0 0 30%; flex: 0 0 30%; max-width: 30%; margin: 10px;"><h3 style="color: white; font-size: 20px; width: 100%;">إلغاء تأكيد الكل</h3></a>
+            </div>
+
+            <div class="row" style="width: 100%; margin: 40px auto;" dir="rtl">
+              <a class="col-md-2 text-center" href="{{url_for('checkOffersAmazonSa')}}">
+                <img class="col-8" src="{{url_for('static', filename='%s' % (Markets.query.filter_by(id=1).one()).logo)}}" style="width: 100px; height: 100px;">
+              </a>
+              <a class="col-md-2 text-center" href="{{url_for('checkOffersAmazonUSA')}}">
+                <img class="col-8" src="{{url_for('static', filename='%s' % (Markets.query.filter_by(id=2).one()).logo)}}" style="width: 100px; height: 100px;">
+              </a>
+              <a class="col-md-2 text-center" href="{{url_for('checkOffersEBay')}}">
+                <img class="col-8" src="{{url_for('static', filename='%s' % (Markets.query.filter_by(id=3).one()).logo)}}" style="width: 100px; height: 100px;">
+              </a>
+              
+
+            </div>
+          {% endif %}
+        {% endif %}
+        {% if all_offers.items %}
+            <div style="display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; margin-bottom: 30px;">
+              <!-- post -->
+              {% for offer in all_offers.items %}
+              <div class="card col-md-4" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); max-width: 200px; margin: auto; text-align: center; font-family: arial; margin-bottom: 30px;">
+                <div style="height: 200px; width:100%; background:no-repeat center /contain url('{{ offer.image }}');"></div>
+                <h4 style="display: block; /* or inline-block */ text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; max-height: 4.5em; line-height: 1.5em">{{ offer.name_ar }}</h4>
+                {% if checkbox_currencies %}
+                              <p class="price" style="color: grey; font-size: 22px; color: #007bff; font-weight: bold;" dir="ltr">{{ "{:,.2f}".format(round(float(offer.price) * selected_currency.amount,2))}} {{ selected_currency.abbreviated }}</p>
+                            {% else %}
+                              <p class="price" style="color: grey; font-size: 22px; color: #007bff; font-weight: bold;" dir="ltr">{{ "{:,.2f}".format(round(float(offer.price),2)) }} SAR</p>
+                            {% endif %}
+                <img src="{{url_for('static', filename='%s' % (Markets.query.filter_by(id=offer.market_id).one()).square)}}" style="-ms-flex: 0 0 100%; flex: 0 0 100%; max-width: 70%; margin: -10px 0 15px;">
+                <p><a href="{{ offer.url }}" style=" border: none; outline: 0; padding: 12px; color: white; background-color: #02ce59; text-align: center; cursor: pointer; width: 100%; font-size: 22px; font-weight: bold" target="_blank">اشتري الآن</a></p>
+                {% if current_user.is_authenticated %}
+                            {% if current_user.edit_offer == 'True' %}
+                              <a class="btn btn-info mb-2" href="{{url_for('editOffer', offer_id=offer.id)}}" dir="rtl">تعديل <span class="oi oi-pencil"></span></a>
+                            {% endif %}
+                          {% endif %}
+
+                          {% if current_user.is_authenticated %}
+                            {% if current_user.delete_offer == 'True' %}
+                              <a class="btn btn-danger mb-2" href="{{url_for('deleteOffer', offer_id=offer.id)}}" dir="rtl">حذف <span class="oi oi-x"></span></a>
+                            {% endif %}
+                          {% endif %}
+              </div>
+
+              {% endfor %}
+              <!-- /post -->
+            </div>
+
+
+
+            <div class="section-row loadmore text-center">
+            <!-- <a href="#" class="primary-button">Load More</a> -->
+            <div class="row d-flex justify-content-center" style="font-size: 10px;">
+                    <div class="col-md-6" style="text-align: center;">
+                      <button class="btn btn-outline-primary mb-4" name="page" value="1" style="font-size: 12px;"><<</button>
+            <!--                      <button class="btn btn-outline-primary mb-4" name="page" value="{{all_offers.prev_num}}" style="font-size: 12px;"><</button> -->                      {% for page_num in all_offers.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=3) %}
+                        {% if page_num %}
+                          {% if all_offers.page == page_num %}
+                            <button class="btn btn-primary mb-4" name="page" value="{{page_num}}" style="font-size: 12px;">{{page_num}}</button>
+                          {% else %}
+                            <button class="btn btn-outline-primary mb-4" name="page" value="{{page_num}}" style="font-size: 12px;">{{page_num}}</button>
+                          {% endif %}
+                        {% else %}
+                            ...
+                        {% endif %}
+                      {% endfor %}
+            <!--  <button class="btn btn-outline-primary mb-4" name="page" value="{{all_offers.next_num}}" style="font-size: 12px;">></button>-->                     <button class="btn btn-outline-primary mb-4" name="page" value="{{all_offers.pages}}" style="font-size: 12px;">>></button>
+                    </div>
+                  </div>
+            </div>
+          {% else %}
+          <a href="{{url_for('offers')}}" class="text-center" style="background: #EEE; margin-top: 50px;" dir="rtl">
+                    <div class="p-4" style="width: 100%; border: 4px dashed #b6b6b6; font: 30px bold; color: gray; padding: 20px;">
+                      لا توجد نتائج تطابق المواصفات المختارة.<br>إضغط على هذه الرسالة للذهاب الى صفحة العروض.
+                    </div>
+                  </a>
+          {% endif %}
+    </div>
+</div>
+{% endblock %}

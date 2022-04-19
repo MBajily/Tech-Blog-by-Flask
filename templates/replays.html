@@ -1,0 +1,109 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+<div class="container">
+
+    <div class="div my-5">
+      <h1 class="text-center py-2" dir="rtl">تعليق : {{selectedComment.full_name}}</h1>
+      <a class="btn btn-primary" href="{{url_for('showReview', review_id = selectedReview.id, review_url='%s_Review' % selectedReview.name.replace(' ','_'))}}" style="font-size: 20px; margin: 20px;">الرجوع الى المراجعة</a>
+      <!-- post comments -->
+          <div class="section-row">
+            <div class="section-title">
+              <h3 class="title" style="font-size: 22px;">{{len(all_replays)}} الردود</h3>
+            </div>
+            <div class="post-comments">
+              <!-- comment -->
+              <div class="media">
+                <div class="media-left">
+                  <img class="media-object" src="{{url_for('static', filename='default_image_4.jpg')}}" alt="">
+                </div>
+                <div class="media-body" style="padding-right: 15px;">
+                  <div class="media-heading">
+                    <h4 style="font-size: 20px;">{{ selectedComment.full_name }}</h4>
+                    <span class="time">{{ selectedComment.publish_date.strftime('%Y %h %d') }}</span>
+                  </div>
+                  <p style="font-size: 18px;">{{ selectedComment.comment }}</p>
+                  <a href="#form" class="reply">الرد</a>
+                  {% if current_user.is_authenticated %}
+                    {% if current_user.super_user == 'True' %}
+                      <a class="btn btn-info" href="{{url_for('editComment', comment_id=selectedComment.id)}}" dir="rtl">تعديل <span class="oi oi-pencil"></span></a>
+                      <a class="btn btn-danger" href="{{url_for('deleteComment', comment_id=selectedComment.id)}}" dir="rtl">حذف <span class="oi oi-x"></span></a>
+                    {% endif %}
+                  {% endif %}
+                  {% if len(all_replays) != 0 %}
+                                    <a class="text-secondary" href="{{url_for('replays', comment_id=selectedComment.id)}}" style="padding-right: 20px;"><b>عدد الردود ({{ len(all_replays) }})</b></a>
+
+                                  {% endif %}
+
+                  <!-- comment -->
+                  {% if all_replays %}
+                  {% for replay in all_replays %}
+                    <div class="media media-author">
+                      <div class="media-left">
+                        <img class="media-object" src="{{url_for('static', filename='default_image_4.jpg')}}" alt="">
+                      </div>
+                      <div class="media-body" style="padding-right: 15px;">
+                        <div class="media-heading">
+                          <h4 style="font-size: 18px;">{{ replay.full_name }}</h4>
+                          <span class="time">{{ replay.publish_date.strftime('%Y %h %d') }}</span>
+                        </div>
+                        <p style="font-size: 18px;">{{ replay.comment }}</p>
+                        <a href="#form" class="reply">الرد</a>
+                        {% if current_user.is_authenticated %}
+                          {% if current_user.super_user == 'True' %}
+                            <a class="btn btn-info" href="{{url_for('editReplay', replay_id=replay.id)}}" dir="rtl">تعديل <span class="oi oi-pencil"></span></a>
+                            <a class="btn btn-danger" href="{{url_for('deleteReplay', replay_id=replay.id)}}" dir="rtl">حذف <span class="oi oi-x"></span></a>
+                          {% endif %}
+                        {% endif %}
+                      </div>
+                    </div>
+                  {% endfor %}
+                  <!-- /comment -->
+                  {% endif %}
+                </div>
+              </div>
+              <!-- /comment -->
+
+            </div>
+          </div>
+          <!-- /post comments -->
+
+
+      <!-- post reply -->
+          <div class="section-row" style="margin-top: 50px;">
+            <div class="section-title">
+              <h3 class="title" style="font-size: 22px;">اترك ردا</h3>
+            </div>
+            <form id="form" class="row py-4 mb-5 " action="{{url_for('writeReplays', comment_id=selectedComment.id)}}" method="POST" class="post-reply">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <textarea class="input" name="message" placeholder="التعليق"></textarea>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input class="input" type="text" name="name" placeholder="الاسم">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input class="input" type="email" name="email" placeholder="الايميل">
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <button class="primary-button" name="Comment" style="font-size: 22px;" value="{{selectedComment.id}}">ارسل</button>
+                </div>
+
+              </div>
+            </form>
+          </div>
+          <!-- /post reply -->
+
+    </div>
+
+
+</div>
+{% endblock %}

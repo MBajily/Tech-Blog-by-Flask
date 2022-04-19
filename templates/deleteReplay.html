@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+<div class="container bg-white p-5 my-5 div">
+
+	<form class="my-5" action="{{url_for('deleteReplay', replay_id = selectedReplay.id)}}" method="POST">
+		<fieldset class="form-group">
+			<legend class="border-bottom mb-4" dir="rtl" style="font-size: 20px;">هل ترغب بحذف التعليق الخاص ب({{selectedReplay.full_name}})؟</legend>
+			<div class="form-group">
+				{% if current_user.is_authenticated %}
+					{% if current_user.super_user == 'True' %}
+						<input class="btn btn-danger" type="submit" value="حذف" style="font-size: 20px;">
+					{% endif %}
+				{% endif %}
+				<a class="btn btn-secondary" href="{{url_for('replays', comment_id=selectedReplay.comment_id)}}" style="font-size: 20px;">الغاء</a>
+			</div>
+		</fieldset>
+	</form>
+</div>
+{% endblock %}

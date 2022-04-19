@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+<div class="container bg-white div p-5 my-5">
+
+	<form class="my-5" action="{{url_for('deletePost', post_id = selectedPost.id)}}" method="POST">
+		<fieldset class="form-group">
+			<legend class="border-bottom mb-4" style="font-size: 28px;">هل ترغب بحذف هذا المنشور"{{selectedPost.title}}"؟</legend>
+			<div class="form-group">
+				{% if current_user.is_authenticated %}
+					{% if current_user.delete_post == 'True' %}
+						<input class="btn btn-danger" type="submit" value="حذف" style="font-size: 24px;">
+					{% endif %}
+				{% endif %}
+				<a class="btn btn-secondary" href="{{url_for('posts')}}" style="font-size: 24px;">الغاء</a>
+			</div>
+		</fieldset>
+	</form>
+</div>
+{% endblock %}

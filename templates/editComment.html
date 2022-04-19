@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+
+<div class="div" dir="rtl">
+
+    <form class="my-5" action="{{url_for('editComment', comment_id=selectedComment.id)}}" method="POST" enctype="multipart/form-data">
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4" dir="rtl">تعديل التعليق الخاص ب{{selectedComment.full_name}}</legend>
+            <div class="form-group col-md-12">
+                    <label class="form-control-label">الإسم الكامل</label>
+                    <input class="form-control form-control-lg" type="text" name="Full_name" value="{{selectedComment.full_name}}" dir="rtl">
+            </div>
+            <div class="form-group col-md-12">
+                    <label class="form-control-label">التعليق</label>
+                    <textarea class="form-control form-control-lg" name="Comment" rows="10" dir="rtl">{{selectedComment.comment}}</textarea>
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {% if current_user.is_authenticated %}
+                {% if current_user.super_user == 'True' %}
+                    <input class="btn btn-success" type="submit" value="حفظ" style="font-size: 20px;">
+                {% endif %}
+            {% endif %}
+            <a class="btn btn-secondary" href="{{url_for('showReview', review_id = selectedReview.id, review_url='%s_Review' % selectedReview.name.replace(' ','_'))}}" style="font-size: 20px;">إلغاء</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

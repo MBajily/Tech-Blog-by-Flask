@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+    {% if message %}
+      <div class="alert alert-{{ message_category }}" dir="rtl">
+        {{ message }}
+      </div>
+    {% endif %}
+
+<div class="container" dir="rtl" style="position: relative; background: white; padding: 10px; margin: 40px auto; font-size: 20px;">
+	<form class="my-5" action="{{url_for('editPost', post_id=selectedPost.id)}}" method="POST" enctype="multipart/form-data">
+        <fieldset class="form-group" style="border: 2px solid gray; padding: 20px;">
+            <legend class="border-bottom mb-4" style="font-size: 28px; text-align: center; font-weight: bold;">تعديل المنشور</legend>
+
+            <div class="form-group">
+                <label class="form-control-label">العنوان</label>
+                <input class="form-control form-control-lg" type="text" name="Title" value="{{selectedPost.title}}"  style="font-size: 20px;">
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label">المحتوى</label>
+                <textarea class="form-control form-control-lg" name="Content" rows="10" dir="ltr">{{selectedPost.content}}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label">الوصف</label>
+                <textarea class="form-control form-control-lg" name="Description" rows="5" style="font-size: 20px;">{{selectedPost.description}}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label">الصورة</label>
+                <input class="form-control-file" type="file" name="Image">
+            </div>
+
+            <div class="form-group col-md-6">
+              <label class="form-control-label">نوع المنشور</label>
+              <select class="form-control" name="Post_Type">
+                {% for post_type in all_post_types %}
+                  {% if post_type.id == selectedPost.post_type_id %}
+                    <option style="font-size: 20px;" value="{{post_type.id}}" selected>{{post_type.name_ar}}</option>
+                  {% else %}
+                    <option style="font-size: 20px;" value="{{post_type.id}}">{{post_type.name_ar}}</option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="form-control-label">الكاتب</label>
+              <select class="form-control" name="Author_ID">
+                {% for user in all_users %}
+                  {% if user.id == selectedPost.author_id %}
+                    <option style="font-size: 20px;" value="{{user.id}}" selected>{{user.full_name}}</option>
+                  {% else %}
+                    <option style="font-size: 20px;" value="{{user.id}}">{{user.full_name}}</option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+
+            <!-- <div class="form-group">
+                <label class="form-control-label">الفئة</label>
+                <select class="form-control" name="Category">
+                    <option style="font-size: 20px;" class="form-control" selected disabled hidden>اختر الفئة</option>
+                    {% for category in all_categories %}
+                        {% if category.id == selectedPost.category_id %}
+                            <option style="font-size: 20px;" value="{{category.id}}" selected>{{category.name}}</option>
+                        {% else %}
+                            <option style="font-size: 20px;" value="{{category.id}}">{{category.name}}</option>
+                        {% endif %}
+
+                    {% endfor %}
+                </select>
+            </div>
+            {% if selectedPost.post_type_id == 1 %}
+                <div class="form-group">
+                  <label class="form-control-label">العلامة التجارية</label>
+                  <select class="form-control" name="Brand">
+                    <option style="font-size: 20px;" class="form-control" selected disabled hidden>اختر العلامة التجارية</option>
+                      {% for brand in all_brands %}
+                          {% if brand.id == selectedPost.brand_id %}
+                              <option style="font-size: 20px;" value="{{brand.id}}" selected>{{brand.name}}</option>
+                          {% else %}
+                              <option style="font-size: 20px;" value="{{brand.id}}">{{brand.name}}</option>
+                          {% endif %}
+                      {% endfor %}
+                  </select>
+              </div>
+            {% endif %} -->
+        </fieldset>
+        <div class="form-group">
+          {% if current_user.is_authenticated %}
+            {% if current_user.edit_post == 'True' %}
+              <input class="btn btn-primary" type="submit" value="حفظ" style="font-size: 20px;">
+            {% endif %}
+          {% endif %}
+            <a class="btn btn-secondary" href="{{url_for('posts')}}" style="font-size: 20px;">الغاء</a>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript" src="{{url_for('static', filename='ckeditor/ckeditor.js')}}"></script>
+<script type="text/javascript">
+	CKEDITOR.replace('Content');
+</script>
+{% endblock %}

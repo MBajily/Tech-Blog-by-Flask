@@ -1,0 +1,261 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+    {% if message %}
+      <div class="alert alert-{{ message_category }}" dir="rtl">
+        {{ message }}
+      </div>
+    {% endif %}
+
+<div class="container" dir="rtl" style="position: relative; background: white; padding: 10px; margin: 40px auto; font-size: 26px;">
+  <form class="my-5" action="{{url_for('editPhone', review_id=selectedReview.id)}}" method="POST" enctype="multipart/form-data">
+        <fieldset class="form-group">
+          <legend class="border-bottom mb-4">تعديل المنتج</legend>
+          <div class="row p-5" style="border: 2px solid gray; padding: 20px;">
+            <h2 class="col-md-12 text-center mb-5">بيانات الجهاز</h2>
+            <div class="form-group col-md-12">
+              <label class="form-control-label">الاسم باللغة الانجليزية</label>
+              <input class="form-control form-control-lg" type="text" name="Name" value="{{ selectedReview.name }}" dir="ltr" style="font-size: 20px;">
+            </div>
+            <div class="form-group col-md-12">
+              <label class="form-control-label">الاسم باللغة العربية</label>
+              <input class="form-control form-control-lg" type="text" name="Name_ar" value="{{ selectedReview.name_ar }}" style="font-size: 20px;">
+            </div>
+
+            <div class="form-group col-md-12">
+                <label class="form-control-label">المحتوى</label>
+                <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Content" rows="10" id="Content">{{selectedReview.content}}</textarea>
+            </div>
+
+            <div class="form-group col-md-12">
+              <label class="form-control-label">الوصف</label>
+              <textarea class="form-control form-control-lg" style="font-size: 20px;" name="Description" rows="5" dir="rtl">{{selectedReview.description}}</textarea>
+            </div>
+
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="float: right;">المميزات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for advantage in advantages %}
+                                <tr class=" col-md-12" style="font-size: 18px;">
+                                    <th>
+                                        <input type="text" name="Advantage-{{advantage.id}}" value="{{advantage.advantage}}">
+                                    </th>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <th>
+                                    <textarea class="form-control form-control-lg" wrap="off" name="Advantages" rows="5"></textarea>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                <th scope="col">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="float: right;">العيوب</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for disadvantage in disadvantages %}
+                                <tr class=" col-md-12" style="font-size: 18px;">
+                                    <th>
+                                        <input type="text" name="Disadvantage-{{disadvantage.id}}" value="{{disadvantage.disadvantage}}">
+                                    </th>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <th>
+                                    <textarea class="form-control form-control-lg" wrap="off" name="Disadvantages" rows="5"></textarea>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+            <div class="form-group col-md-6">
+                <label class="form-control-label">الصورة</label>
+                <input class="form-control-file" type="file" name="Image">
+            </div>
+            <div class="row col-12">
+              <div class="form-group col-md-6">
+                  <label class="form-control-label">الفئة</label>
+                  <select class="form-control" name="Category">
+                      {% for category in all_categories %}
+                          {% if selectedReview.category_id == category.id %}
+                              <option style="font-size: 20px;" value="{{category.id}}" selected>{{category.name}}</option>
+                          {% else %}
+                              <option style="font-size: 20px;" value="{{category.id}}">{{category.name}}</option>
+                          {% endif %}
+                      {% endfor %}
+                  </select>
+              </div>
+              <div class="form-group col-md-6">
+                  <label class="form-control-label">العلامة التجارية</label>
+                  <select class="form-control" name="Brand">
+                      {% for brand in all_brands %}
+                          {% if selectedReview.brand_id == brand.id %}
+                              <option style="font-size: 20px;" value="{{brand.id}}" selected>{{brand.name}}</option>
+                          {% else %}
+                              <option style="font-size: 20px;" value="{{brand.id}}">{{brand.name}}</option>
+                          {% endif %}
+                      {% endfor %}
+                  </select>
+              </div>
+              <div class="form-group col-md-6">
+                  <label class="form-control-label">الكاتب</label>
+                  <select class="form-control" name="Author_ID">
+                    {% for user in all_users %}
+                      {% if user.id == selectedReview.author_id %}
+                        <option style="font-size: 20px;" value="{{user.id}}" selected>{{user.full_name}}</option>
+                      {% else %}
+                        <option style="font-size: 20px;" value="{{user.id}}">{{user.full_name}}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+            </div>
+          </div>
+      <div class="row p-5" style="border: 2px solid gray; padding: 20px;">
+        <h2 class="col-md-12 text-center" style="padding: 20px;">تفاصيل الجهاز</h2>
+        <div class="row col-12 p-3 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+          <h2 class="col-12">الشاشة</h2>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">حجم الشاشة</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Screen_Size" rows="1">{{ selectedComparePhones.screen_size }}</textarea>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">نوع الشاشة</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Screen_Type" rows="1">{{ selectedComparePhones.screen_type }}</textarea>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">دقة الشاشة</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Screen_Resolution" rows="1">{{ selectedComparePhones.screen_resolution }}</textarea>
+          </div>
+        </div>
+        <div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+          <h2 class="col-12">السعة التخزينية</h2>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">سعات التخزين الداخلية</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Internal_Storage_Space" rows="1">{{ selectedComparePhones.internal_storage_space }}</textarea>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">اكبر مساحة تخزين خارجية</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="External_Storage_Space" rows="1">{{ selectedComparePhones.external_storage_space }}</textarea>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">ذاكرة الوصول العشوائي</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="RAM" rows="1">{{ selectedComparePhones.ram }}</textarea>
+          </div>
+        </div>
+        <div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+          <h2 class="col-12">البطارية</h2>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">حجم البطارية</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Battery_Size" rows="1">{{ selectedComparePhones.battery_size }}</textarea>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">خاصية الشحن السريع</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Fast_Charging" rows="1">{{ selectedComparePhones.fast_charging }}</textarea>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">خاصية الشحن اللاسلكي</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Wireless_Charging" rows="1">{{ selectedComparePhones.wireless_charging }}</textarea>
+          </div>
+        </div>
+        <div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+          <h2 class="col-12">التصميم</h2>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">سمك الجهاز</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Thickness" rows="1">{{ selectedComparePhones.thickness }}</textarea>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">وزن الجهاز</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Weight" rows="1">{{ selectedComparePhones.thickness }}</textarea>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">ارتفاع الجهاز</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Height" rows="1">{{ selectedComparePhones.height }}</textarea>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">عرض الجهاز</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Width" rows="1">{{ selectedComparePhones.width }}</textarea>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">الألوان المتوفرة</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Colors" rows="1">{{ selectedComparePhones.colors }}</textarea>
+          </div>
+        </div>
+        <div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+          <h2 class="col-12">المنافذ</h2>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">منافذ الجهاز</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Ports" rows="1">{{ selectedComparePhones.ports }}</textarea>
+          </div>
+        </div>
+        <div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+          <h2 class="col-12">الكاميرات</h2>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">عدد الكاميرات</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Number_Cameras" rows="1">{{ selectedComparePhones.number_cameras }}</textarea>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">مواصفات الكاميرات</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Cameras_Specifications" rows="1">{{ selectedComparePhones.cameras_specifications }}</textarea>
+          </div>
+        </div>
+        <div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+          <h2 class="col-12">الاداء والمعالج</h2>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">نوع المعالج</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Processor" rows="1">{{ selectedComparePhones.processor }}</textarea>
+          </div>
+        </div>
+        <div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+          <h2 class="col-12">الامان</h2>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">طرق تأمين الجهاز</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Methods_Securing" rows="1">{{ selectedComparePhones.methods_securing }}</textarea>
+          </div>
+        </div>
+        <div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+          <h2 class="col-12">نظام التشغيل</h2>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">نظام التشغيل</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="OS" rows="1">{{ selectedComparePhones.os }}</textarea>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">الاتصال اللاسلكي</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Wireless_Connectivity" rows="1">{{ selectedComparePhones.wireless_connectivity }}</textarea>
+          </div>
+        </div>
+        <div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+          <h2 class="col-12">ملحقات الجهاز</h2>
+          <div class="form-group col-md-6">
+            <label class="form-control-label">ملحقات الجهاز</label>
+            <textarea class="form-control form-control-lg" dir="ltr" style="font-size: 20px;" name="Accessories" rows="1">{{ selectedComparePhones.accessories }}</textarea>
+          </div>
+        </div>
+      </div>
+        </fieldset>
+        <div class="form-group">
+          {% if current_user.is_authenticated %}
+            {% if current_user.edit_phone_review == 'True' %}
+              <input class="btn btn-success" type="submit" value="حفظ" style="font-size: 24px;">
+            {% endif %}
+          {% endif %}
+            <a class="btn btn-secondary" href="{{url_for('reviews')}}" style="font-size: 24px;">الغاء</a>
+        </div>
+    </form>
+
+<script type="text/javascript" src="{{url_for('static', filename='ckeditor/ckeditor.js')}}"></script>
+<script type="text/javascript">
+    CKEDITOR.replace('Content');
+</script>
+</div>
+{% endblock %}

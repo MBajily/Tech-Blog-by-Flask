@@ -1,0 +1,120 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" dir="rtl">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+		<!-- PAGE HEADER -->
+		<div class="page-header">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-offset-1 col-md-10 text-center">
+						<div class="author">
+							<img class="author-img center-block" src="{{url_for('static', filename='default_image_2.jpg')}}" alt="">
+							<h1 class="text-uppercase">{{selectedAuthor.full_name}}</h1>
+							<p class="lead">{{selectedAuthor.about}}</p>
+
+							<div style="display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; color: white; font-size: 30px; margin: 30px;">
+								<div style="-ms-flex: 0 0 50%; flex: 0 0 50%; max-width: 50%; border-left: 2px solid #EEE; padding-right: 10%;">المقالات ({{author_number_posts}})</div>
+								<div style="-ms-flex: 0 0 50%; flex: 0 0 50%; max-width: 50%; padding-left: 10%;">المراجعات ({{author_number_reviews}})</div>
+							</div>
+							<!-- <ul class="author-social">
+								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+								<li><a href="#"><i class="fa fa-instagram"></i></a></li>
+							</ul> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /PAGE HEADER -->
+
+
+	<!-- SECTION -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-6">
+					{% if current_user.is_authenticated %}
+				        {% if current_user.new_laptop_review == 'True' or current_user.new_phone_review == 'True' %}
+				          <div class="row justify-content-around" dir="rtl" style="display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; width: 100%; margin: 20px auto;">
+				            <a class="btn btn-success col-sm-8 col-md-4" href="{{url_for('newReview')}}" style="-ms-flex: 0 0 70%; flex: 0 0 70%; max-width: 70%;"><h3 style="color: white; font-size: 30px;">إضافة مراجعة جديدة</h3></a>
+				          </div>
+				        {% endif %}
+				    {% endif %}
+						<div class="col-12">
+							<div class="section-title">
+								<h2 class="title" style="font-size: 22px;">المراجعات</h2>
+							</div>
+						</div>
+					{% for review in author_reviews %}
+					<div class="col-md-6">
+						<div class="post post-sm">
+							<a class="post-img" href="{{url_for('showReview', review_id=review.id, review_url='مراجعة_%s' % review.name_ar.replace(' ','_'))}}"><img src="{{url_for('static', filename='Reviews/%s' % review.image)}}" alt="{{review.name_ar}} - {{review.name}}"></a>
+							<div class="post-body">
+								<div class="post-category">
+									<form action="{{url_for('reviews', checkbox_categories=checkbox_categories)}}" method="POST" enctype="multipart/form-data"><button name="Category" type="submit" value="{{(Categories.query.filter_by(id=review.category_id).one()).id}}" style="font-size: 20px; background: none; border:none; color: #007bff; font-weight: bold; padding-right: 0;">مراجعات {{(Categories.query.filter_by(id=review.category_id).one()).name_ar}}</button></form>
+								</div>
+								<h3 class="post-title title-sm"><a href="{{url_for('showReview', review_id=review.id, review_url='مراجعة_%s' % review.name_ar.replace(' ','_'))}}">مراجعة {{review.name_ar}}</a></h3>
+								<ul class="post-meta">
+									<li><a href="{{url_for('showAuthor', author_id=(Users.query.filter_by(id=review.author_id).one()).id)}}">{{(Users.query.filter_by(id=review.author_id).one()).full_name}}</a></li>
+									<li dir="ltr">{{ review.publish_date.strftime('%d %B %Y') }}</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+
+				<div class="col-md-6">
+					{% if current_user.is_authenticated %}
+			            {% if current_user.new_post == 'True' %}
+			              <div class="row justify-content-around" style="display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; width: 100%; margin: 20px auto;">
+			                <a class="col-sm-8 col-md-4 btn btn-success" href="{{url_for('newPost')}}" style="-ms-flex: 0 0 70%; flex: 0 0 70%; max-width: 70%;"><h3 style="color: white; font-size: 30px;">اضافة منشور جديد</h3></a>
+			              </div>
+			            {% endif %}
+			          {% endif %}
+						<div class="col-12">
+							<div class="section-title">
+								<h2 class="title" style="font-size: 22px;">المنشورات</h2>
+							</div>
+						</div>
+					{% for post in author_posts %}
+					<div class="col-md-6">
+						<div class="post post-sm">
+							<a class="post-img" href="{{url_for('showPost', post_id=post.id, post_url='%s' % post.title.replace(' ','_'))}}"><img src="{{url_for('static', filename='Posts/%s' % post.image)}}" alt="{{post.title}}"></a>
+							<div class="post-body">
+								<div class="post-category">
+									<form action="{{url_for('posts', checkbox_post_types=checkbox_post_types)}}" method="POST" enctype="multipart/form-data"><button name="Post_Type" type="submit" value="{{(Post_Types.query.filter_by(id=post.post_type_id).one()).id}}" style="font-size: 20px; background: none; border:none; color: #007bff; font-weight: bold; padding-right: 0;">{{(Post_Types.query.filter_by(id=post.post_type_id).one()).name_ar}}</button></form>
+								</div>
+								<h3 class="post-title title-sm"><a href="{{url_for('showPost', post_id=post.id, post_url='%s' % post.title.replace(' ','_'))}}">{{post.title}}</a></h3>
+								<ul class="post-meta">
+									<li><a href="{{url_for('showAuthor', author_id=(Users.query.filter_by(id=post.author_id).one()).id)}}">{{(Users.query.filter_by(id=post.author_id).one()).full_name}}</a></li>
+									<li dir="ltr">{{ post.publish_date.strftime('%d %B %Y') }}</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /SECTION -->
+{% endblock %}

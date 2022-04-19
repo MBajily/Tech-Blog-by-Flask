@@ -1,0 +1,245 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+    {% if message %}
+      <div class="alert alert-{{ message_category }}" dir="rtl">
+        {{ message }}
+      </div>
+    {% endif %}
+
+<div class="container" dir="rtl" style="position: relative; background: white; padding: 10px; margin: 40px auto; font-size: 26px;">
+	<form class="my-5" action="{{url_for('editLaptop', review_id=selectedReview.id)}}" method="POST" enctype="multipart/form-data">
+        <fieldset class="form-group">
+          <legend class="border-bottom mb-4">تعديل اللابتوب</legend>
+          <div class="row p-5" style="border: 2px solid gray; padding: 20px;">
+            <h2 class="col-md-12 text-center mb-5">بيانات اللابتوب</h2>
+            <div class="form-group col-md-12">
+      				<label class="form-control-label">الاسم باللغة الانجليزية</label>
+      				<input class="form-control form-control-lg"  dir="ltr" type="text" name="Name" value="{{ selectedReview.name }}" style="font-size: 20px;">
+      			</div>
+            <div class="form-group col-md-12">
+      				<label class="form-control-label">الاسم باللغة العربية</label>
+      				<input class="form-control form-control-lg" type="text" name="Name_ar" value="{{ selectedReview.name_ar }}" style="font-size: 20px;">
+      			</div>
+
+            <div class="form-group col-md-12">
+                <label class="form-control-label">المحتوى</label>
+                <textarea class="form-control form-control-lg" name="Content" rows="10" dir="ltr">{{selectedReview.content}}</textarea>
+            </div>
+
+            <div class="form-group col-md-12">
+              <label class="form-control-label">الوصف</label>
+              <textarea class="form-control form-control-lg" name="Description" rows="5" dir="rtl" style="font-size: 20px;">{{selectedReview.description}}</textarea>
+            </div>
+
+
+                    <table class="table col-md-12">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="float: right;">المميزات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for advantage in advantages %}
+                                <tr class=" col-md-12">
+                                    <th>
+                                        <input type="text" name="Advantage-{{advantage.id}}" value="{{advantage.advantage}}">
+                                    </th>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <th>
+                                    <textarea class="form-control form-control-lg" wrap="off" name="Advantages" rows="5"></textarea>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                <th scope="col">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="float: right;">العيوب</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for disadvantage in disadvantages %}
+                                <tr class=" col-md-12">
+                                    <th>
+                                        <input type="text" name="Disadvantage-{{disadvantage.id}}" value="{{disadvantage.disadvantage}}">
+                                    </th>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <th>
+                                    <textarea class="form-control form-control-lg" wrap="off" name="Disadvantages" rows="5"></textarea>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+            <div class="form-group col-md-6">
+                <label class="form-control-label">الصورة</label>
+                <input class="form-control-file" type="file" name="Image">
+            </div>
+            <div class="row col-12">
+              <div class="form-group col-md-6">
+                  <label class="form-control-label">الفئة</label>
+                  <select class="form-control" name="Category">
+                      {% for category in all_categories %}
+                          {% if selectedReview.category_id == category.id %}
+                              <option style="font-size: 20px;" value="{{category.id}}" selected>{{category.name}}</option>
+                          {% else %}
+                              <option style="font-size: 20px;" value="{{category.id}}">{{category.name}}</option>
+                          {% endif %}
+                      {% endfor %}
+                  </select>
+              </div>
+              <div class="form-group col-md-6">
+                  <label class="form-control-label">العلامة التجارية</label>
+                  <select class="form-control" name="Brand">
+                      {% for brand in all_brands %}
+                          {% if selectedReview.brand_id == brand.id %}
+                              <option style="font-size: 20px;" value="{{brand.id}}" selected>{{brand.name}}</option>
+                          {% else %}
+                              <option style="font-size: 20px;" value="{{brand.id}}">{{brand.name}}</option>
+                          {% endif %}
+                      {% endfor %}
+                  </select>
+              </div>
+              <div class="form-group col-md-6">
+                  <label class="form-control-label">الكاتب</label>
+                  <select class="form-control" name="Author_ID">
+                    {% for user in all_users %}
+                      {% if user.id == selectedReview.author_id %}
+                        <option style="font-size: 20px;" value="{{user.id}}" selected>{{user.full_name}}</option>
+                      {% else %}
+                        <option style="font-size: 20px;" value="{{user.id}}">{{user.full_name}}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+            </div>
+          </div>
+          <div class="row p-5" style="border: 2px solid gray; padding: 20px;">
+    				<h2 class="col-md-12 text-center" style="padding: 20px;">تفاصيل اللابتوب</h2>
+    				<div class="row col-12 p-3 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+    					<h2 class="col-12">الشاشة</h2>
+    					<div class="form-group col-md-6">
+    						<label class="form-control-label">حجم الشاشة</label>
+    						<textarea class="form-control form-control-lg"  dir="ltr" style="font-size: 20px;" name="Screen_Size" rows="1">{{ selectedCompareLaptop.screen_size }}</textarea>
+    					</div>
+    					<div class="form-group col-md-6">
+    						<label class="form-control-label">نوع الشاشة</label>
+    						<textarea class="form-control form-control-lg"  dir="ltr" style="font-size: 20px;" name="Screen_Type" rows="1">{{ selectedCompareLaptop.screen_type }}</textarea>
+    					</div>
+    					<div class="form-group col-md-6">
+    						<label class="form-control-label">دقة الشاشة</label>
+    						<textarea class="form-control form-control-lg"  dir="ltr" style="font-size: 20px;" name="Screen_Resolution" rows="1">{{ selectedCompareLaptop.screen_resolution }}</textarea>
+    					</div>
+    				</div>
+    				<div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+    					<h2 class="col-12">السعة التخزينية</h2>
+    					<div class="form-group col-md-6">
+    						<label class="form-control-label">سعات التخزين</label>
+    						<textarea class="form-control form-control-lg"  dir="ltr" style="font-size: 20px;" name="Storage_Space" rows="1">{{ selectedCompareLaptop.storage_space }}</textarea>
+    					</div>
+    					<div class="form-group col-md-6">
+    						<label class="form-control-label">نوع الهارديسك</label>
+    						<textarea class="form-control form-control-lg"  dir="ltr" style="font-size: 20px;" name="Hard_Disk_Type" rows="1">{{ selectedCompareLaptop.hard_disk_type }}</textarea>
+    					</div>
+    				</div>
+    				<div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+    					<h2 class="col-12">البطارية</h2>
+    					<div class="form-group col-md-6">
+    						<label class="form-control-label">عمر البطارية</label>
+    						<textarea class="form-control form-control-lg"  dir="ltr" style="font-size: 20px;" name="Battery_Life" rows="1">{{ selectedCompareLaptop.battery_life }}</textarea>
+    					</div>
+    				</div>
+    				<div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+    					<h2 class="col-12">التصميم</h2>
+    					<div class="form-group col-md-6">
+    						<label class="form-control-label">سمك الجهاز</label>
+    						<textarea class="form-control form-control-lg"  dir="ltr" style="font-size: 20px;" name="Thickness" rows="1">{{ selectedCompareLaptop.thickness }}</textarea>
+    					</div>
+    					<div class="form-group col-md-6">
+    						<label class="form-control-label">وزن الجهاز</label>
+    						<textarea class="form-control form-control-lg"  dir="ltr" style="font-size: 20px;" name="Weight" rows="1">{{ selectedCompareLaptop.weight }}</textarea>
+    					</div>
+    					<div class="form-group col-md-6">
+    						<label class="form-control-label">الألوان المتوفرة</label>
+    						<textarea class="form-control form-control-lg"  dir="ltr" style="font-size: 20px;" name="Colors" rows="1">{{ selectedCompareLaptop.colors }}</textarea>
+    					</div>
+    				</div>
+    				<div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+    					<h2 class="col-12">المنافذ</h2>
+    					<div class="form-group col-md-6">
+    						<label class="form-control-label">المنافذ</label>
+    						<textarea class="form-control form-control-lg"  dir="ltr" style="font-size: 20px;" name="Ports" rows="1">{{ selectedCompareLaptop.ports }}</textarea>
+    					</div>
+    				</div>
+    				<div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+    					<h2 class="col-12">الكاميرا</h2>
+    					<div class="form-group col-md-6">
+    						<label class="form-control-label">مواصفات الكاميرا</label>
+    						<textarea class="form-control form-control-lg"  dir="ltr" style="font-size: 20px;" name="Camera_Properties" rows="1">{{ selectedCompareLaptop.camera_properties }}</textarea>
+    					</div>
+    				</div>
+    				<div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+    					<h2 class="col-12">الاداء والمعالج</h2>
+    					<div class="form-group col-md-6">
+    						<label class="form-control-label">نوع المعالج</label>
+    						<textarea class="form-control form-control-lg"  dir="ltr" style="font-size: 20px;" name="Processor_Type" rows="1">{{ selectedCompareLaptop.processor_type }}</textarea>
+    					</div>
+              <div class="form-group col-md-6">
+    						<label class="form-control-label">تردد المعالج</label>
+    						<textarea class="form-control form-control-lg"  dir="ltr" style="font-size: 20px;" name="Processor_Speed" rows="1">{{ selectedCompareLaptop.processor_speed }}</textarea>
+    					</div>
+    					<div class="form-group col-md-6">
+    						<label class="form-control-label">ذاكرة الوصول العشوائي</label>
+    						<textarea class="form-control form-control-lg"  dir="ltr" style="font-size: 20px;" name="RAM" rows="1">{{ selectedCompareLaptop.ram }}</textarea>
+    					</div>
+    					<div class="form-group col-md-6">
+    						<label class="form-control-label">معالج الرسوميات</label>
+    						<textarea class="form-control form-control-lg"  dir="ltr" style="font-size: 20px;" name="Graphics_Processor" rows="1">{{ selectedCompareLaptop.graphics_processor }}</textarea>
+    					</div>
+    				</div>
+    				<div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+    					<h2 class="col-12">الامان</h2>
+    					<div class="form-group col-md-6">
+    						<label class="form-control-label">طرق التأمين</label>
+    						<textarea class="form-control form-control-lg"  dir="ltr" style="font-size: 20px;" name="Security" rows="1">{{ selectedCompareLaptop.security }}</textarea>
+    					</div>
+    				</div>
+    				<div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+    					<h2 class="col-12">نظام التشغيل</h2>
+    					<div class="form-group col-md-6">
+    						<label class="form-control-label">نظام التشغيل</label>
+    						<textarea class="form-control form-control-lg"  dir="ltr" style="font-size: 20px;" name="OS" rows="1">{{ selectedCompareLaptop.os }}</textarea>
+    					</div>
+    				</div>
+    				<div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+    					<h2 class="col-12">الاتصال اللاسلكي</h2>
+    					<div class="form-group col-md-6">
+    						<label class="form-control-label">طرق الاتصال اللاسلكي</label>
+    						<textarea class="form-control form-control-lg"  dir="ltr" style="font-size: 20px;" name="Wireless_Connection" rows="1">{{ selectedCompareLaptop.wireless_connection }}</textarea>
+    					</div>
+    				</div>
+    			</div>
+        </fieldset>
+        <div class="form-group">
+            {% if current_user.is_authenticated %}
+                {% if current_user.edit_laptop_review == 'True' %}
+                    <input class="btn btn-success" type="submit" value="حفظ" style="font-size: 24px;">
+                {% endif %}
+            {% endif %}
+            <a class="btn btn-secondary" href="{{url_for('reviews')}}" style="font-size: 24px;">الغاء</a>
+        </div>
+    </form>
+
+<script type="text/javascript" src="{{url_for('static', filename='ckeditor/ckeditor.js')}}"></script>
+<script type="text/javascript">
+    CKEDITOR.replace('Content');
+</script>
+</div>
+{% endblock %}

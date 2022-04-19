@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+    {% if message %}
+      <div class="alert alert-{{ message_category }}" dir="rtl">
+        {{ message }}
+      </div>
+    {% endif %}
+
+<div class="container" dir="rtl" style="position: relative; background: white; padding: 10px; margin: 40px auto; font-size: 20px;">
+	<form class="my-5" action="{{url_for('deleteReview', review_id = selectedReview.id)}}" method="POST">
+		<fieldset class="form-group">
+			<legend class="border-bottom mb-4" style="font-size: 30px;">هل ترغب بحذف هذا المنتج {{selectedReview.name}}"؟</legend>
+			<div class="form-group">
+				{% if current_user.is_authenticated %}
+					{% if current_user.delete_phone_review == 'True' or current_user.delete_laptop_review == 'True' %}
+						<input class="btn btn-danger" type="submit" value="حذف" style="font-size: 24px;">
+					{% endif %}
+				{% endif %}
+				<a class="btn btn-secondary" href="{{url_for('reviews')}}" style="font-size: 24px;">الغاء</a>
+			</div>
+		</fieldset>
+	</form>
+</div>
+{% endblock %}

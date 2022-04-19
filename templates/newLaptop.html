@@ -1,0 +1,208 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" dir="rtl">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+<div class="container" dir="rtl" style="position: relative; background: white; padding: 10px; margin: 40px auto; font-size: 20px;">
+
+	<form class="my-5" action="{{url_for('newLaptop')}}" method="POST" enctype="multipart/form-data">
+		<fieldset class="form-group">
+      	<legend class="border-bottom mb-4">اضافة لابتوب جديد</legend>
+      	<div class="row p-5" style="border: 2px solid gray; padding: 20px;">
+			<h2 class="col-md-12 text-center mb-5">بيانات اللابتوب</h2>
+			<div class="form-group col-md-12">
+		        <label class="form-control-label">الصورة</label>
+		        <label class="text-muted">File Browser</label><input class="custom-file-input" type="file" name="Image" id="customFile" ><label class="custom-file-label" for="customFile"></label>
+		    </div>
+      		<div class="form-group col-md-12">
+				<label class="form-control-label">الاسم باللغة الانجليزية</label>
+				<input class="form-control form-control-lg" type="text" name="Name">
+			</div>
+
+			<div class="form-group col-md-12">
+				<label class="form-control-label">الاسم باللغة العربية</label>
+				<input class="form-control form-control-lg" type="text" name="Name_ar">
+			</div>
+
+			<div class="form-group col-md-12">
+				<label class="form-control-label">المحتوى</label>
+				<textarea class="form-control form-control-lg" name="Content" rows="10"></textarea>
+			</div>
+
+
+			<div class="form-group col-md-12">
+				<label class="form-control-label">الوصف</label>
+				<textarea class="form-control form-control-lg" name="Description" rows="5" dir="rtl"></textarea>
+			</div>
+
+			<div class="form-group col-md-12">
+				<label class="form-control-label">المميزات</label>
+				<textarea class="form-control form-control-lg" wrap="off" name="Advantages" rows="5"></textarea>
+			</div>
+
+			<div class="form-group col-md-12">
+				<label class="form-control-label">العيوب</label>
+				<textarea class="form-control form-control-lg" wrap="off" name="Disadvantages" rows="5"></textarea>
+			</div>
+
+
+			<div class="row col-12">
+				<div class="form-group col-md-6">
+					<label class="form-control-label">الفئة</label>
+          			<select class="form-control" name="Category">
+						<option style="font-size: 20px;" value="{{category.id}}" selected>{{category.name_ar}}</option>
+					</select>
+				</div>
+				<div class="form-group col-md-6">
+					<label class="form-control-label">العلامة التجارية</label>
+					<select class="form-control" name="Brand">
+						<option style="font-size: 20px;" class="form-control" selected disabled hidden>اختر العلامة التجارية</option>
+						{% for Brand in all_brands %}
+							<option style="font-size: 20px;" value="{{Brand.id}}">{{Brand.name_ar}}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="form-group col-md-6">
+	              <label class="form-control-label">الكاتب</label>
+	              <select class="form-control" name="Author_ID">
+	                <option style="font-size: 20px;" class="form-control" selected disabled hidden>اختر الكاتب</option>
+	                {% for user in all_users %}
+	                  <option style="font-size: 20px;" value="{{user.id}}">{{user.full_name}}</option>
+	                {% endfor %}
+	              </select>
+	            </div>
+			</div>
+		</div>
+
+			<div class="row p-5" style="border: 2px solid gray; padding: 20px;">
+				<h2 class="col-md-12 text-center" style="padding: 20px;">تفاصيل اللابتوب</h2>
+				<div class="row col-12 p-3 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+					<h2 class="col-12">الشاشة</h2>
+					<div class="form-group col-md-6">
+						<label class="form-control-label">حجم الشاشة</label>
+						<textarea class="form-control form-control-lg" name="Screen_Size" rows="1"></textarea>
+					</div>
+					<div class="form-group col-md-6">
+						<label class="form-control-label">نوع الشاشة</label>
+						<textarea class="form-control form-control-lg" name="Screen_Type" rows="1"></textarea>
+					</div>
+					<div class="form-group col-md-6">
+						<label class="form-control-label">دقة الشاشة</label>
+						<textarea class="form-control form-control-lg" name="Screen_Resolution" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+					<h2 class="col-12">السعة التخزينية</h2>
+					<div class="form-group col-md-6">
+						<label class="form-control-label">سعات التخزين</label>
+						<textarea class="form-control form-control-lg" name="Storage_Space" rows="1"></textarea>
+					</div>
+					<div class="form-group col-md-6">
+						<label class="form-control-label">نوع الهارديسك</label>
+						<textarea class="form-control form-control-lg" name="Hard_Disk_Type" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+					<h2 class="col-12">البطارية</h2>
+					<div class="form-group col-md-6">
+						<label class="form-control-label">عمر البطارية</label>
+						<textarea class="form-control form-control-lg" name="Battery_Life" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+					<h2 class="col-12">التصميم</h2>
+					<div class="form-group col-md-6">
+						<label class="form-control-label">سمك الجهاز</label>
+						<textarea class="form-control form-control-lg" name="Thickness" rows="1"></textarea>
+					</div>
+					<div class="form-group col-md-6">
+						<label class="form-control-label">وزن الجهاز</label>
+						<textarea class="form-control form-control-lg" name="Weight" rows="1"></textarea>
+					</div>
+					<div class="form-group col-md-6">
+						<label class="form-control-label">الألوان المتوفرة</label>
+						<textarea class="form-control form-control-lg" name="Colors" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+					<h2 class="col-12">المنافذ</h2>
+					<div class="form-group col-md-6">
+						<label class="form-control-label">المنافذ</label>
+						<textarea class="form-control form-control-lg" name="Ports" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+					<h2 class="col-12">الكاميرا</h2>
+					<div class="form-group col-md-6">
+						<label class="form-control-label">مواصفات الكاميرا</label>
+						<textarea class="form-control form-control-lg" name="Camera_Properties" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row col-12 p-3" style="background: #EEE; border: 1px solid gray; padding: 10px;">
+					<h2 class="col-12">الاداء والمعالج</h2>
+					<div class="form-group col-md-6">
+						<label class="form-control-label">نوع المعالج</label>
+						<textarea class="form-control form-control-lg" name="Processor_Type" rows="1"></textarea>
+					</div>
+          			<div class="form-group col-md-6">
+						<label class="form-control-label">تردد المعالج</label>
+						<textarea class="form-control form-control-lg" name="Processor_Speed" rows="1"></textarea>
+					</div>
+					<div class="form-group col-md-6">
+						<label class="form-control-label">ذاكرة الوصول العشوائي</label>
+						<textarea class="form-control form-control-lg" name="RAM" rows="1"></textarea>
+					</div>
+					<div class="form-group col-md-6">
+						<label class="form-control-label">معالج الرسوميات</label>
+						<textarea class="form-control form-control-lg" name="Graphics_Processor" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row col-12 p-3"  style="background: #EEE; border: 1px solid gray; padding: 10px;">
+					<h2 class="col-12">الامان</h2>
+					<div class="form-group col-md-6">
+						<label class="form-control-label">طرق التأمين</label>
+						<textarea class="form-control form-control-lg" name="Security" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row col-12 p-3"  style="background: #EEE; border: 1px solid gray; padding: 10px;">
+					<h2 class="col-12">نظام التشغيل</h2>
+					<div class="form-group col-md-6">
+						<label class="form-control-label">نظام التشغيل</label>
+						<textarea class="form-control form-control-lg" name="OS" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row col-12 p-3"  style="background: #EEE; border: 1px solid gray; padding: 10px;">
+					<h2 class="col-12">الاتصال اللاسلكي</h2>
+					<div class="form-group col-md-6">
+						<label class="form-control-label">طرق الاتصال اللاسلكي</label>
+						<textarea class="form-control form-control-lg" name="Wireless_Connection" rows="1"></textarea>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+		<div class="form-group">
+			{% if current_user.is_authenticated %}
+                {% if current_user.new_laptop_review == 'True' %}
+					<input class="btn btn-success" type="submit" value="اضافة" style="font-size: 24px;">
+				{% endif %}
+			{% endif %}
+            <a class="btn btn-secondary" href="{{url_for('reviews')}}" style="font-size: 24px;">الغاء</a>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript" src="{{url_for('static', filename='ckeditor/ckeditor.js')}}"></script>
+<script type="text/javascript">
+	CKEDITOR.replace('Content');
+</script>
+{% endblock %}

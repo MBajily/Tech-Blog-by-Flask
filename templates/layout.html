@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <meta content='{{ pageDescription }}' name='description'/>
+    <meta content='{{ keywords }}' name='keywords'/>
+    <!-- Description and Keywords (end) -->
+   <!-- Social Media meta tag need customer customization -->
+    <meta content='175185532613376' property='fb:app_id'/>
+    <meta content='100002581703906' property='fb:admins'/>
+    <meta content='@LogamyTech' name='twitter:site'/>
+    <meta content='@MBajily' name='twitter:creator'/>  
+	
+	<link rel="apple-touch-icon" sizes="180x180" href="{{url_for('static', filename='logos/Favicon/apple-touch-icon.png')}}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{{url_for('static', filename='logos/Favicon/favicon-32x32.png')}}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{{url_for('static', filename='logos/Favicon/favicon-16x16.png')}}">
+	<link rel="manifest" href="{{url_for('static', filename='logos/Favicon/site.webmanifest')}}">
+	<link rel="mask-icon" href="{{url_for('static', filename='logos/Favicon/safari-pinned-tab.svg')}}" color="#5bbad5">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="theme-color" content="#ffffff">
+
+
+	<title>{{title}}</title>
+
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CMuli:400,700" rel="stylesheet">
+
+	<!-- Bootstrap -->
+	<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}" />
+
+	<!-- Font Awesome Icon -->
+	<link rel="stylesheet" href="{{url_for('static', filename='css/font-awesome.min.css')}}">
+
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" />
+
+	
+	<script data-ad-client="ca-pub-7310757857604781" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+	</script>
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		<style type="text/css">
+			button:focus{
+ 				outline: none;
+ 				
+		}</style>
+
+</head>
+
+<body>
+	<!-- HEADER -->
+	<header id="header">
+		<!-- NAV -->
+		<div id="nav">
+			<!-- Top Nav -->
+			<div id="nav-top">
+				<div class="container">
+					<!-- social -->
+					<ul class="nav-social">
+						<li><a href="https://www.facebook.com/LogamyTech/" target="_blank"><li class="fa fa-facebook"></li></a></li>
+						<li><a href="https://twitter.com/LogamyTech/" target="_blank"><li class="fa fa-twitter"></li></a></li>
+						<li><a href="https://instagram.com/LogamyTech/" target="_blank"><li class="fa fa-instagram"></li></a></li>
+						<li><a href="https://www.youtube.com/channel/UCLIpr82f48yYeTFVoW-FJfw" target="_blank"><li class="fa fa-youtube"></li></a></li>
+					</ul>
+					<!-- /social -->
+
+					<!-- logo -->
+					<div class="nav-logo">
+						<a href="{{url_for('homepage')}}" class="logo"><img src="{{url_for('static', filename='Thelogo2.png')}}" alt="{{ title }}" style="max-width: 170px"></a>
+					</div>
+					<!-- /logo -->
+
+					<!-- search & aside toggle -->
+					<div class="nav-btns">
+						<button class="aside-btn"><li class="fa fa-bars"></li></button>
+					</div>
+					<!-- /search & aside toggle -->
+				</div>
+			</div>
+			<!-- /Top Nav -->
+
+			<!-- Main Nav -->
+			<div id="nav-bottom">
+				<div class="container">
+					<!-- nav -->
+					<ul class="nav-menu active">
+						<li><a href="{{url_for('homepage')}}">الصفحة الرئيسية</a></li>
+						<li class="has-dropdown megamenu">
+							<a style="cursor: pointer;">الفئات</a>
+							<div class="dropdown tab-dropdown">
+								<div class="row">
+									<div class="col-md-2">
+										<ul class="tab-nav">
+											<li class="active"><a data-toggle="tab" href="#tab1" style="font-size: 18px;">مراجعات هواتف</a></li>
+											<li><a data-toggle="tab" href="#tab2" style="font-size: 18px;">مراجعات لابتوبات</a></li>
+											<li><a data-toggle="tab" href="#tab3" style="font-size: 18px;">مقالات</a></li>
+											<li><a data-toggle="tab" href="#tab4" style="font-size: 18px;">برمجة</a></li>
+											<li><a data-toggle="tab" href="#tab5" style="font-size: 18px;">أخبار</a></li>
+										</ul>
+									</div>
+									<div class="col-md-10">
+										<div class="dropdown-body tab-content">
+											<!-- tab1 -->
+											<div id="tab1" class="tab-pane fade in active">
+												<div class="row" dir="rtl">
+													<!-- post -->
+													{% for review in phone_reviews %}
+													<div class="col-md-4">
+														<div class="post post-sm">
+															<a class="post-img" href="{{url_for('showReview', review_id=review.id, review_url='مراجعة_%s' % review.name_ar.replace(' ','_'))}}"><div style="background: no-repeat center/contain  url('{{url_for('static', filename='Reviews/%s' % review.image)}}'); height: 200px"></div></a>
+															<div class="post-body">
+																<div class="post-category">
+																	<form action="{{url_for('reviews', checkbox_categories=checkbox_categories)}}" method="POST" enctype="multipart/form-data"><button name="Category" type="submit" value="{{(Categories.query.filter_by(id=review.category_id).one()).id}}" style="font-size: 20px; background: none; border:none; color: #007bff; font-weight: bold; padding-left: 0;">مراجعات {{(Categories.query.filter_by(id=review.category_id).one()).name_ar}}</button></form>
+																</div>
+																<h3 class="post-title title-sm"><a href="{{url_for('showReview', review_id=review.id, review_url='مراجعة_%s' % review.name_ar.replace(' ','_'))}}" style="font-size: 18px;">مراجعة {{review.name_ar}}</a></h3>
+																<ul class="post-meta">
+																	<li><a href="{{url_for('showAuthor', author_id=(Users.query.filter_by(id=review.author_id).one()).id)}}" style="font-size: 16px;">{{(Users.query.filter_by(id=review.author_id).one()).full_name}}</a></li>
+																	<li>{{ review.publish_date.strftime('%Y ,%h %d') }}</li>
+																</ul>
+															</div>
+														</div>
+													</div>
+													{% endfor %}
+													<!-- /post -->
+												</div>
+											</div>
+											<!-- /tab1 -->
+
+											<!-- tab2 -->
+											<div id="tab2" class="tab-pane fade in">
+												<div class="row" dir="rtl">
+													<!-- post -->
+													{% for review in laptop_reviews %}
+													<div class="col-md-4">
+														<div class="post post-sm">
+															<a class="post-img" href="{{url_for('showReview', review_id=review.id, review_url='مراجعة_%s' % review.name_ar.replace(' ','_'))}}"><div style="background: no-repeat center/contain  url('{{url_for('static', filename='Reviews/%s' % review.image)}}'); height: 200px"></div></a>
+															<div class="post-body">
+																<div class="post-category">
+																	<form action="{{url_for('reviews', checkbox_categories=checkbox_categories)}}" method="POST" enctype="multipart/form-data"><button name="Category" type="submit" value="{{(Categories.query.filter_by(id=review.category_id).one()).id}}" style="font-size: 20px; background: none; border:none; color: #007bff; font-weight: bold; padding-left: 0;">مراجعات {{(Categories.query.filter_by(id=review.category_id).one()).name_ar}}</button></form>
+																</div>
+																<h3 class="post-title title-sm"><a href="{{url_for('showReview', review_id=review.id, review_url='مراجعة_%s' % review.name_ar.replace(' ','_'))}}" style="font-size: 18px;">مراجعة {{review.name_ar}}</a></h3>
+																<ul class="post-meta">
+																	<li><a href="{{url_for('showAuthor', author_id=(Users.query.filter_by(id=review.author_id).one()).id)}}" style="font-size: 16px;">{{(Users.query.filter_by(id=review.author_id).one()).full_name}}</a></li>
+																	<li>{{ review.publish_date.strftime('%Y ,%h %d') }}</li>
+																</ul>
+															</div>
+														</div>
+													</div>
+													{% endfor %}
+													<!-- /post -->
+												</div>
+											</div>
+											<!-- /tab2 -->
+
+											<!-- tab3 -->
+											
+											<div id="tab3" class="tab-pane fade in">
+												<div class="row">
+													{% for post in second_posts[:3] %}
+													<!-- post -->
+													<div class="col-md-4">
+														<div class="post post-sm">
+															<a class="post-img" href="{{url_for('showPost', post_id=post.id, post_url='%s' % post.title.replace(' ','_'))}}"><img src="{{url_for('static', filename='Posts/%s' % post.image)}}" alt="{{post.title}}"></a>
+															<div class="post-body">
+																<div class="post-category">
+																	<form action="{{url_for('posts', checkbox_post_types=checkbox_post_types)}}" method="POST" enctype="multipart/form-data"><button name="Post_Type" type="submit" value="{{(Post_Types.query.filter_by(id=post.post_type_id).one()).id}}" style="font-size: 20px; background: none; border:none; color: #007bff; font-weight: bold;">{{(Post_Types.query.filter_by(id=post.post_type_id).one()).name_ar}}</button></form>
+																</div>
+																<h3 class="post-title title-sm"><a href="{{url_for('showPost', post_id=post.id, post_url='%s' % post.title.replace(' ','_'))}}">{{post.title}}</a></h3>
+																<ul class="post-meta">
+																	<li><a href="{{url_for('showAuthor', author_id=(Users.query.filter_by(id=post.author_id).one()).id)}}" style="font-size: 16px;">{{(Users.query.filter_by(id=post.author_id).one()).full_name}}</a></li>
+																	<li>{{ post.publish_date.strftime('%Y ,%h %d') }}</li>
+																</ul>
+															</div>
+														</div>
+													</div>
+													{% endfor %}
+													<!-- /post -->
+												</div>
+											</div>
+											<!-- /tab3 -->
+
+											<!-- tab4 -->
+											<div id="tab4" class="tab-pane fade in">
+												<div class="row">
+													{% for post in third_posts[:3] %}
+													<!-- post -->
+													<div class="col-md-4">
+														<div class="post post-sm">
+															<a class="post-img" href="{{url_for('showPost', post_id=post.id, post_url='%s' % post.title.replace(' ','_'))}}"><img src="{{url_for('static', filename='Posts/%s' % post.image)}}" alt="{{post.title}}"></a>
+															<div class="post-body">
+																<div class="post-category">
+																	<form action="{{url_for('posts', checkbox_post_types=checkbox_post_types)}}" method="POST" enctype="multipart/form-data"><button name="Post_Type" type="submit" value="{{(Post_Types.query.filter_by(id=post.post_type_id).one()).id}}" style="font-size: 20px; background: none; border:none; color: #007bff; font-weight: bold;">{{(Post_Types.query.filter_by(id=post.post_type_id).one()).name_ar}}</button></form>
+																</div>
+																<h3 class="post-title title-sm"><a href="{{url_for('showPost', post_id=post.id, post_url='%s' % post.title.replace(' ','_'))}}">{{post.title}}</a></h3>
+																<ul class="post-meta">
+																	<li><a href="{{url_for('showAuthor', author_id=(Users.query.filter_by(id=post.author_id).one()).id)}}" style="font-size: 16px;">{{(Users.query.filter_by(id=post.author_id).one()).full_name}}</a></li>
+																	<li>{{ post.publish_date.strftime('%Y ,%h %d') }}</li>
+																</ul>
+															</div>
+														</div>
+													</div>
+													{% endfor %}
+													<!-- /post -->
+												</div>
+											</div>
+											<!-- /tab4 -->
+
+											<!-- tab5 -->
+											<div id="tab5" class="tab-pane fade in">
+												<div class="row">
+													{% for post in first_posts[:3] %}
+													<!-- post -->
+													<div class="col-md-4">
+														<div class="post post-sm">
+															<a class="post-img" href="{{url_for('showPost', post_id=post.id, post_url='%s' % post.title.replace(' ','_'))}}"><img src="{{url_for('static', filename='Posts/%s' % post.image)}}" alt="{{post.title}}"></a>
+															<div class="post-body">
+																<div class="post-category">
+																	<form action="{{url_for('posts', checkbox_post_types=checkbox_post_types)}}" method="POST" enctype="multipart/form-data"><button name="Post_Type" type="submit" value="{{(Post_Types.query.filter_by(id=post.post_type_id).one()).id}}" style="font-size: 20px; background: none; border:none; color: #007bff; font-weight: bold;">{{(Post_Types.query.filter_by(id=post.post_type_id).one()).name_ar}}</button></form>
+																</div>
+																<h3 class="post-title title-sm"><a href="{{url_for('showPost', post_id=post.id, post_url='%s' % post.title.replace(' ','_'))}}">{{post.title}}</a></h3>
+																<ul class="post-meta">
+																	<li><a href="{{url_for('showAuthor', author_id=(Users.query.filter_by(id=post.author_id).one()).id)}}" style="font-size: 16px;">{{(Users.query.filter_by(id=post.author_id).one()).full_name}}</a></li>
+																	<li>{{ post.publish_date.strftime('%Y ,%h %d') }}</li>
+																</ul>
+															</div>
+														</div>
+													</div>
+													{% endfor %}
+													<!-- /post -->
+												</div>
+											</div>
+											<!-- /tab5 -->
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li class="has-dropdown">
+							<a style="cursor: pointer;">العلامات التجارية</a>
+							<div class="dropdown">
+								<div class="dropdown-body">
+									<ul class="dropdown-list">
+										{% for brand in all_brands %}
+											<li><a href="{{url_for('showBrand', brand_id=brand.id, brand_url='%s' % brand.name_ar.replace(' ','_'))}}" style="font-size: 18px;">{{brand.name_ar}}</a></li>
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+						</li>
+						<!-- <li class="has-dropdown megamenu">
+							<a href="#">العروض</a>
+							<div class="dropdown">
+								<form action="{{url_for('offers', checkbox_brands=checkbox_brands, checkbox_colors=checkbox_colors, checkbox_storages=checkbox_storages, checkbox_markets=checkbox_markets, checkbox_sort=checkbox_sort, checkbox_categories=checkbox_categories, checkbox_reviews=checkbox_reviews)}}" method="POST" enctype="multipart/form-data" class="dropdown-body">
+									<div class="row">
+										<div class="col-md-3">
+											<h4 class="dropdown-heading" style="font-size: 24px;">العلامات التجارية</h4>
+											<ul class="dropdown-list">
+												{% for brand in all_brands %}
+													<li><button name="Brand" value="{{brand.id}}" type="submit" style="border: none; background: none; font-size: 20px; padding: 5px;">{{brand.name_ar}}</button></li>
+												{% endfor %}
+											</ul>
+										</div>
+										<div class="col-md-3">
+											<h4 class="dropdown-heading" style="font-size: 24px;">الفئات</h4>
+											<ul class="dropdown-list">
+												{% for category in all_categories %}
+													<li><button name="Category" value="{{category.id}}" type="submit" style="border: none; background: none; font-size: 20px; padding: 5px;">{{category.name_ar}}</button></li>
+												{% endfor %}
+											</ul>
+											<h4 class="dropdown-heading">Technology</h4>
+											<ul class="dropdown-list">
+												<li><button name="" value="" type="submit">Lifestyle</a></li>
+												<li><button name="" value="" type="submit">Travel</a></li>
+											</ul>
+										</div>
+										<div class="col-md-3">
+											<h4 class="dropdown-heading">Fashion</h4>
+											<ul class="dropdown-list">
+												<li><button name="" value="" type="submit">Fashion</a></li>
+												<li><button name="" value="" type="submit">Technology</a></li>
+											</ul>
+											<h4 class="dropdown-heading">Travel</h4>
+											<ul class="dropdown-list">
+												<li><button name="" value="" type="submit">Lifestyle</a></li>
+												<li><button name="" value="" type="submit">Healtth</a></li>
+												<li><button name="" value="" type="submit">Fashion</a></li>
+											</ul>
+										</div>
+										<div class="col-md-3">
+											<h4 class="dropdown-heading">Health</h4>
+											<ul class="dropdown-list">
+												<li><button name="" value="" type="submit">Technology</a></li>
+												<li><button name="" value="" type="submit">Fashion</a></li>
+												<li><button name="" value="" type="submit">Health</a></li>
+												<li><button name="" value="" type="submit">Travel</a></li>
+											</ul>
+										</div>
+									</div>
+								</form>
+							</div>
+						</li> -->
+						<li><a href="{{url_for('reviews')}}">المراجعات</a></li>
+						<li><a href="{{url_for('posts')}}">المقالات</a></li>
+						<li><a href="{{url_for('offers')}}">العروض</a></li>
+						<li><a href="{{url_for('contact')}}">اتصل بنا</a></li>
+						<li><a href="{{url_for('about')}}">حولنا</a></li>
+					</ul>
+					<!-- /nav -->
+				</div>
+			</div>
+			<!-- /Main Nav -->
+
+			<!-- Aside Nav -->
+			<div id="nav-aside">
+				<ul class="nav-aside-menu">
+					<li><a href="{{url_for('homepage')}}">الصفحة الرئيسية</a></li>
+					<li class="has-dropdown"><a>الفئات</a>
+						<ul class="dropdown">
+							<li><a href="#"><form action="{{url_for('reviews', checkbox_categories=checkbox_categories, checkbox_brands=checkbox_brands)}}" method="POST" enctype="multipart/form-data" style="display: inline-block;"><button name="Category" type="submit" value="1" style="font-size: 16px; background: none; border:none; font-weight: bold;">مراجعات هواتف ذكية</button></form></a></li>
+								<li><a href="#"><form action="{{url_for('reviews', checkbox_categories=checkbox_categories, checkbox_brands=checkbox_brands)}}" method="POST" enctype="multipart/form-data" style="display: inline-block;"><button name="Category" type="submit" value="3" style="font-size: 16px; background: none; border:none; font-weight: bold;">مراجعات لابتوبات</button></form></a></li>
+								<li><a href="#"><form action="{{url_for('posts', checkbox_post_types=checkbox_post_types)}}" method="POST" enctype="multipart/form-data" style="display: inline-block;"><button name="Post_Type" type="submit" value="2" style="font-size: 16px; background: none; border:none; font-weight: bold;">مقالات</button></form></a></li>
+								<li><a href="#"><form action="{{url_for('posts', checkbox_post_types=checkbox_post_types)}}" method="POST" enctype="multipart/form-data" style="display: inline-block;"><button name="Post_Type" type="submit" value="3" style="font-size: 16px; background: none; border:none; font-weight: bold;">برمجة</button></form></a></li>
+								<li><a href="#"><form action="{{url_for('posts', checkbox_post_types=checkbox_post_types)}}" method="POST" enctype="multipart/form-data" style="display: inline-block;"><button name="Post_Type" type="submit" value="1" style="font-size: 16px; background: none; border:none; font-weight: bold;">اخبار</button></form></a></li>
+						</ul>
+					</li>
+					<li class="has-dropdown"><a>العلامات التجارية</a>
+						<ul class="dropdown">
+							{% for brand in all_brands %}
+								<li><a href="{{url_for('showBrand', brand_id=brand.id, brand_url='%s' % brand.name_ar.replace(' ','_'))}}" style="font-size: 18px;">{{brand.name_ar}}</a></li>
+							{% endfor %}
+						</ul>
+					</li>
+					<li><a href="{{url_for('reviews')}}">المراجعات</a></li>
+					<li><a href="{{url_for('posts')}}">المقالات</a></li>
+					<li><a href="{{url_for('offers')}}">العروض</a></li>
+					<li><a href="{{url_for('contact')}}">اتصل بنا</a></li>
+					<li><a href="{{url_for('about')}}">حولنا</a></li>
+					{% if current_user.is_authenticated %}
+			        	<a class=" btn btn-danger" href="{{url_for('logout')}}">تسجيل الخروج</a>
+			  		{% endif %}
+				</ul>
+				<button class="nav-close nav-aside-close"><span></span></button>
+			</div>
+			<!-- /Aside Nav -->
+		</div>
+		<!-- /NAV -->
+	</header>
+	<!-- /HEADER -->
+
+		{% block body %}
+		<!-- Here we will put content of body -->
+		{% endblock %}
+
+	<!-- FOOTER -->
+	<footer id="footer">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-3">
+					<div class="footer-widget">
+						<div class="footer-logo">
+							<a href="{{url_for('homepage')}}" class="logo"><img src="{{url_for('static', filename='Thelogo2.png')}}" alt="" style="max-height: 70px;"></a>
+						</div>
+						<p>في موقع لوجامي للتقنية سنقوم بتوفير مراجعة لكل ما هو جديد في عالم التكنولوجيا وبالاخص في مجال الهواتف المحمولة واللابتوبات.
+وسنوفر لك اسهل طريقة لمقارنة اسعار المنتجات التي ترغب بها عبر العديد من المتاجر الالكترونية. لكي نضمن لك الحصول على ما ترغب به باقل الاسعار وكل ذلك عبر صفحة العروض.</p>
+						<ul class="contact-social">
+							<li><a href="https://www.facebook.com/LogamyTech/" target="_blank" class="facebook"><li class="fa fa-facebook"></li></a></li>
+							<li><a href="https://twitter.com/LogamyTech/" target="_blank" class="twitter"><li class="fa fa-twitter"></li></a></li>
+							<!-- <li><a href="https://www.youtube.com/channel/UCLIpr82f48yYeTFVoW-FJfw" target="_blank" class="youtube"><li class="fa fa-youtube"></li></a></li> -->
+							<li><a href="https://instagram.com/LogamyTech/" target="_blank" class="instagram"><li class="fa fa-instagram"></li></a></li>
+							<li><a href="https://www.patreon.com/bePatron?u=35819333" target="_blank"><img src="{{url_for('static', filename='logos/Patreon.png')}}" style="width: 41px; height: 41px;"></a></li>
+							<li><a href="https://www.paypal.me/LogamyTech" target="_blank"><img src="{{url_for('static', filename='logos/Paypal.png')}}" style="width: 41px; height: 41px;"></li></a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="footer-widget">
+						<h3 class="footer-title" style="font-size: 22px;">الفئات</h3>
+						<div class="category-widget">
+							<ul>
+								<li><a href="#"><form action="{{url_for('reviews', checkbox_categories=checkbox_categories, checkbox_brands=checkbox_brands)}}" method="POST" enctype="multipart/form-data" style="display: inline-block;"><button name="Category" type="submit" value="1" style="font-size: 20px; background: none; border:none; font-weight: bold;">مراجعات هواتف ذكية</button></form><span style="display: inline-block; float: left;">{{number_phones}}</span></a></li>
+								<li><a href="#"><form action="{{url_for('reviews', checkbox_categories=checkbox_categories, checkbox_brands=checkbox_brands)}}" method="POST" enctype="multipart/form-data" style="display: inline-block;"><button name="Category" type="submit" value="3" style="font-size: 20px; background: none; border:none; font-weight: bold;">مراجعات لابتوبات</button></form><span style="display: inline-block; float: left;">{{number_laptops}}</span></a></li>
+								<li><a href="#"><form action="{{url_for('posts', checkbox_post_types=checkbox_post_types)}}" method="POST" enctype="multipart/form-data" style="display: inline-block;"><button name="Post_Type" type="submit" value="2" style="font-size: 20px; background: none; border:none; font-weight: bold;">مقالات</button></form><span style="display: inline-block; float: left;">{{number_articals}}</span></a></li>
+								<li><a href="#"><form action="{{url_for('posts', checkbox_post_types=checkbox_post_types)}}" method="POST" enctype="multipart/form-data" style="display: inline-block;"><button name="Post_Type" type="submit" value="3" style="font-size: 20px; background: none; border:none; font-weight: bold;">برمجة</button></form><span style="display: inline-block; float: left;">{{number_programming}}</span></a></li>
+								<li><a href="#"><form action="{{url_for('posts', checkbox_post_types=checkbox_post_types)}}" method="POST" enctype="multipart/form-data" style="display: inline-block;"><button name="Post_Type" type="submit" value="1" style="font-size: 20px; background: none; border:none; font-weight: bold;">اخبار</button></form><span style="display: inline-block; float: left;">{{number_news}}</span></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="footer-widget">
+						<h3 class="footer-title" style="font-size: 22px;">علامات تجارية</h3>
+						<div class="tags-widget">
+							<ul>
+								{% for brand in all_brands %}
+									<li><a href="{{url_for('showBrand', brand_id=brand.id, brand_url='%s' % brand.name_ar.replace(' ','_'))}}" style="font-size: 18px;">{{brand.name_ar}}</a></li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="footer-widget">
+						<h3 class="footer-title" style="font-size: 22px;">الاشتراك في القائمة البريدية</h3>
+						<div class="newsletter-widget">
+							<form action="{{url_for('mailList')}}" method="POST" enctype="multipart/form-data">
+								<p>اشترك الآن ليصلك جديدنا من المراجعات والمقالات والعروض المميزة.</p>
+								<input class="input" type="email" name="email" placeholder="قم بإدخال الايميل الخاص بك">
+								<button class="btn btn-primary" type="submit" style="font-size: 20px; border:none; font-weight: bold;">اشترك الآن</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /row -->
+
+			<!-- row -->
+			<div class="footer-bottom row" >
+				<div class="col-md-6 col-md-push-6">
+					<ul class="footer-nav">
+						<li><a href="{{url_for('homepage')}}">الصفحة الرئيسية</a></li>
+						<li><a href="{{url_for('reviews')}}">المراجعات</a></li>
+						<li><a href="{{url_for('offers')}}">العروض</a></li>
+						<li><a href="{{url_for('posts')}}">المنشورات</a></li>
+						<li><a href="{{url_for('contact')}}">اتصل بنا</a></li>
+						<li><a href="{{url_for('about')}}">حولنا</a></li>
+						<li><a href="{{url_for('privacyPolicy')}}">سياسة الخصوصية</a></li>
+					</ul>
+				</div>
+				<div class="col-md-6 col-md-pull-6">
+					<div class="footer-copyright">
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <li class="fa fa-heart-o" aria-hidden="true"></li> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					</div>
+				</div>
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</footer>
+	<!-- /FOOTER -->
+
+	<!-- jQuery Plugins -->
+	<script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+	<script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+	<script src="{{url_for('static', filename='js/jquery.stellar.min.js')}}"></script>
+	<script src="{{url_for('static', filename='js/main.js')}}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+</body>
+
+</html>

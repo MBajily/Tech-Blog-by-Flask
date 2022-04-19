@@ -1,0 +1,1231 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" dir="rtl">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+	<!-- SECTION -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-8">
+					<div class="row" style="margin-right: -16px; width: 106.7%; margin-left: -15px; border-top: 4px solid #EEE; padding-top: 20px; ">
+					<h3 class="mt-0 mb-3 mx-auto text-center pb-3 px-3" dir="rtl" style="border-bottom: 5px solid #007bff;"><b>اختر الاجهزة التي تود مقارنتها</b></h3>
+					<form class="col-12" action="{{url_for('compareReviews', category_id=selectedCategory.id,category_url=selectedCategory.name)}}" method="POST" enctype="multipart/form-data" >
+<!-- 						<div class="row col-12" dir="rtl">
+							<div class="row form-group col-md-6">
+								<label class="form-control-label"></label>
+								<select class="form-control" name="First_Review">
+									<option class="form-control" selected disabled hidden>اختر الجعاز</option>
+									{% if first_Review %}
+										{% for review in Reviews.query.order_by(Reviews.name).all() %}
+											{% if review.category_id == review.category_id %}
+												{% if review.id == first_Review.id %}
+													<option value="{{review.id}}" selected dir="ltr">{{review.name}}</option>
+												{% else %}
+													<option value="{{review.id}}" dir="ltr">{{review.name}}</option>
+					   							{% endif %}
+											{% endif %}
+										{% endfor %}
+									{% else %}
+										<option class="form-control" selected disabled hidden>اختر المنتج</option>
+										{% for review in all_reviews %}
+											<option value="{{review.id}}" dir="ltr">{{review.name}}</option>
+										{% endfor %}
+									{% endif %}
+								</select>
+								<label class="form-control-label"></label>
+								<select class="form-control" name="Second_Review">
+									<option class="form-control" selected disabled hidden>اختر الجعاز</option>
+									{% if second_Review %}
+										{% for review in Reviews.query.order_by(Reviews.name).all() %}
+											{% if review.category_id == review.category_id %}
+												{% if review.id == second_Review.id %}
+													<option value="{{review.id}}" selected dir="ltr">{{review.name}}</option>
+													{% else %}
+													<option value="{{review.id}}" dir="ltr">{{review.name}}</option>
+					   							{% endif %}
+											{% endif %}
+										{% endfor %}
+									{% else %}
+										<option class="form-control" selected disabled hidden>اختر المنتج</option>
+										{% for review in all_reviews %}
+											<option value="{{review.id}}" dir="ltr">{{review.name}}</option>
+										{% endfor %}
+									{% endif %}
+								</select>
+								<button class="row btn btn-primary" type="submit" name="button">قم بالمقارنة</button>
+							</div>
+
+						</div> -->
+				{% if selectedCategory.id==1 %}
+		          <table class="table table-bordered" dir="rtl" style="margin: 0; width: 100%; font-size: 14px;">
+		            <thead>
+		            	<tr dir="rtl">
+		            		<th scope="col" class="text-right" style="font-size: 18px;">
+		            			اختر الأجهزة
+		            		</th>
+		            		<th scope="col">
+		            			<select class="form-control" name="First_Review">
+									<option class="form-control" selected disabled hidden>اختر الجعاز</option>
+									{% if first_Review %}
+										{% for review in all_reviews %}
+											{% if review.category_id == review.category_id %}
+												{% if review.id == first_Review.id %}
+													<option value="{{review.id}}" selected dir="ltr">{{review.name}}</option>
+												{% else %}
+													<option value="{{review.id}}" dir="ltr">{{review.name}}</option>
+					   							{% endif %}
+											{% endif %}
+										{% endfor %}
+									{% else %}
+										<option class="form-control" selected disabled hidden>اختر المنتج</option>
+										{% for review in all_reviews %}
+											<option value="{{review.id}}" dir="ltr">{{review.name}}</option>
+										{% endfor %}
+									{% endif %}
+								</select>
+							</th>
+							<th scope="col">
+								<select class="form-control" name="Second_Review">
+									<option class="form-control" selected disabled hidden>اختر الجعاز</option>
+									{% if second_Review %}
+										{% for review in all_reviews %}
+											{% if review.category_id == review.category_id %}
+												{% if review.id == second_Review.id %}
+													<option value="{{review.id}}" selected dir="ltr">{{review.name}}</option>
+													{% else %}
+													<option value="{{review.id}}" dir="ltr">{{review.name}}</option>
+					   							{% endif %}
+											{% endif %}
+										{% endfor %}
+									{% else %}
+										<option class="form-control" selected disabled hidden>اختر المنتج</option>
+										{% for review in all_reviews %}
+											<option value="{{review.id}}" dir="ltr">{{review.name}}</option>
+										{% endfor %}
+									{% endif %}
+								</select>
+							</th>
+						<tr dir="rtl">
+							<th scope="row" colspan="3" class="text-center"><button class="row btn btn-primary" type="submit" name="button" style="margin: 10px auto; font-size: 20px;">قم بالمقارنة</button>
+							</th>
+						</tr>
+		              <tr dir="rtl">
+
+		              		
+		                <th scope="col" class="text-right" style="font-size: 18px;">الاسم</th>
+		                {% if first_Review %}
+		                	<th scope="col">{{first_Review.name}}</th>
+						{% else %}
+							<th scope="col">-</th>
+						{% endif %}
+						{% if second_Review %}
+		                	<th scope="col">{{second_Review.name}}</th>
+						{% else %}
+							<th scope="col">-</th>
+						{% endif %}
+		              </tr>
+		            </thead>
+		            <tbody>
+		            <tr dir="rtl">
+		                <th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">الشاشة</th>
+		              </tr>
+		            <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">حجم الشاشة</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.screen_size %}
+							<td dir="ltr">{{ firstComparePhones.screen_size }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+						{% else %}
+							<td dir="ltr">-</td>
+						{% endif %}
+
+						{% if secondComparePhones %}
+		                  {% if secondComparePhones.screen_size %}
+							<td dir="ltr">{{ secondComparePhones.screen_size }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+						{% else %}
+							<td dir="ltr">-</td>
+						{% endif %}
+		            </tr>
+		            <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">نوع الشاشة</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.screen_type %}
+		                    <td dir="ltr">{{ firstComparePhones.screen_type }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.screen_type %}
+		                    <td dir="ltr">{{ secondComparePhones.screen_type }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		            </tr>
+		            <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">دقة الشاشة</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.screen_resolution %}
+		                    <td dir="ltr">{{ firstComparePhones.screen_resolution }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.screen_resolution %}
+		                    <td dir="ltr">{{ secondComparePhones.screen_resolution }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		            </tr>
+					<tr dir="rtl">
+		                <th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">السعة التخزينية</th>
+		            </tr>
+		            <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">سعات التخزين الداخلية</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.internal_storage_space %}
+		                    <td dir="ltr">{{ firstComparePhones.internal_storage_space }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.internal_storage_space %}
+		                    <td dir="ltr">{{ secondComparePhones.internal_storage_space }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		            </tr>
+		            <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">اكبر مساحة خارجية</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.external_storage_space %}
+		                    <td dir="ltr">{{ firstComparePhones.external_storage_space }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.external_storage_space %}
+		                    <td dir="ltr">{{ secondComparePhones.external_storage_space }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		            </tr>
+		            <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">الرام</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.ram %}
+		                    <td dir="ltr">{{ firstComparePhones.ram }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.ram %}
+		                    <td dir="ltr">{{ secondComparePhones.ram }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		            </tr>
+
+
+					<tr dir="rtl">
+		              	<th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">البطارية</th>
+		            </tr>
+		            <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">حجم البطارية</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.battery_size %}
+		                    <td dir="ltr">{{ firstComparePhones.battery_size }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.battery_size %}
+		                    <td dir="ltr">{{ secondComparePhones.battery_size }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		            </tr>
+		            <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">الشحن السريع</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.fast_charging %}
+		                    <td dir="ltr">{{ firstComparePhones.fast_charging }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.fast_charging %}
+		                    <td dir="ltr">{{ secondComparePhones.fast_charging }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		            </tr>
+		            <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">الشحن اللاسلكي</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.wireless_charging %}
+		                    <td dir="ltr">{{ firstComparePhones.wireless_charging }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.wireless_charging %}
+		                    <td dir="ltr">{{ secondComparePhones.wireless_charging }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		            </tr>
+
+
+					<tr dir="rtl">
+		                <th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">التصميم</th>
+		            </tr>
+
+		              <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">سمك الجهاز</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.thickness %}
+		                    <td dir="ltr">{{ firstComparePhones.thickness }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.thickness %}
+		                    <td dir="ltr">{{ secondComparePhones.thickness }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		            </tr>
+		              <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">ارتفاع الجهاز</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.height %}
+		                    <td dir="ltr">{{ firstComparePhones.height }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.height %}
+		                    <td dir="ltr">{{ secondComparePhones.height }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		            </tr>
+									<tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">عرض الجهاز</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.width %}
+		                    <td dir="ltr">{{ firstComparePhones.width }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.width %}
+		                    <td dir="ltr">{{ secondComparePhones.width }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		            </tr>
+		              <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">ون الجهاز</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.weight %}
+		                    <td dir="ltr">{{ firstComparePhones.weight }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.weight %}
+		                    <td dir="ltr">{{ secondComparePhones.weight }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		            </tr>
+		              <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">الألوان المتوفرة</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.colors %}
+		                    <td dir="ltr">{{ firstComparePhones.colors }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.colors %}
+		                    <td dir="ltr">{{ secondComparePhones.colors }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		          	</tr>
+
+
+
+					<tr dir="rtl">
+		                <th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">منافذ الجهاز</th>
+		            </tr>
+		            <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">منافذ الجهاز</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.ports %}
+		                    <td dir="ltr">{{ firstComparePhones.ports }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.ports %}
+		                    <td dir="ltr">{{ secondComparePhones.ports }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		            </tr>
+
+					<tr dir="rtl">
+		                <th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">الكاميرات</th>
+		            </tr>
+
+
+					<tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">عدد الكاميرات</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.number_cameras %}
+		                    <td dir="ltr">{{ firstComparePhones.number_cameras }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.number_cameras %}
+		                    <td dir="ltr">{{ secondComparePhones.number_cameras }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		              </tr>
+		            <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">مواصفات الكاميرات</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.cameras_specifications %}
+		                    <td dir="ltr">{{ firstComparePhones.cameras_specifications }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.cameras_specifications %}
+		                    <td dir="ltr">{{ secondComparePhones.cameras_specifications }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		              </tr>
+
+
+							<tr dir="rtl">
+		                <th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">الاداء والمعالج</th>
+		              </tr>
+
+		            <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">نوع المعالج</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.processor %}
+		                    <td dir="ltr">{{ firstComparePhones.processor }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.processor %}
+		                    <td dir="ltr">{{ secondComparePhones.processor }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		              </tr>
+
+							<tr dir="rtl">
+		                <th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">الامان</th>
+		              </tr>
+
+		            <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">طرق التأمين</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.methods_securing %}
+		                    <td dir="ltr">{{ firstComparePhones.methods_securing }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.methods_securing %}
+		                    <td dir="ltr">{{ secondComparePhones.methods_securing }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		            </tr>
+
+
+
+					<tr dir="rtl">
+		                <th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">نظام التشغيل</th>
+		            </tr>
+		            <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">نظام الجهاز</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.os %}
+		                    <td dir="ltr">{{ firstComparePhones.os }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.os %}
+		                    <td dir="ltr">{{ secondComparePhones.os }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		              </tr>
+		              <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">الاتصالات اللاسلكية</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.wireless_connectivity %}
+		                    <td dir="ltr">{{ firstComparePhones.wireless_connectivity }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.wireless_connectivity %}
+		                    <td dir="ltr">{{ secondComparePhones.wireless_connectivity }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		              </tr>
+									<tr dir="rtl">
+		                <th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">ملحقات الجهاز</th>
+		              </tr>
+		              <tr dir="rtl">
+		                <th scope="row" class="text-right" style="font-size: 18px;">ملحقات الجهاز</th>
+		                {% if firstComparePhones %}
+		                  {% if firstComparePhones.accessories %}
+		                    <td dir="ltr">{{ firstComparePhones.accessories }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+
+		                {% if secondComparePhones %}
+		                  {% if secondComparePhones.accessories %}
+		                    <td dir="ltr">{{ secondComparePhones.accessories }}</td>
+		                  {% else %}
+		                    <td dir="ltr">-</td>
+		                  {% endif %}
+		                {% else %}
+		                  <td dir="ltr">-</td>
+		                {% endif %}
+		              </tr>
+		            </tbody>
+		          </table>
+				{% elif selectedCategory.id==3 %}
+					<table class="table table-bordered" dir="rtl" style="margin: 0; width: 100%; font-size: 14px;">
+						<thead>
+							<tr dir="rtl">
+		            		<th scope="col" class="text-right" style="font-size: 18px;">
+		            			اختر الأجهزة
+		            		</th>
+		            		<th scope="col">
+		            			<select class="form-control" name="First_Review">
+									<option class="form-control" selected disabled hidden>اختر الجعاز</option>
+									{% if first_Review %}
+										{% for review in all_reviews %}
+											{% if review.category_id == review.category_id %}
+												{% if review.id == first_Review.id %}
+													<option value="{{review.id}}" selected dir="ltr">{{review.name}}</option>
+												{% else %}
+													<option value="{{review.id}}" dir="ltr">{{review.name}}</option>
+					   							{% endif %}
+											{% endif %}
+										{% endfor %}
+									{% else %}
+										<option class="form-control" selected disabled hidden>اختر المنتج</option>
+										{% for review in all_reviews %}
+											<option value="{{review.id}}" dir="ltr">{{review.name}}</option>
+										{% endfor %}
+									{% endif %}
+								</select>
+							</th>
+							<th scope="col">
+								<select class="form-control" name="Second_Review">
+									<option class="form-control" selected disabled hidden>اختر الجعاز</option>
+									{% if second_Review %}
+										{% for review in all_reviews %}
+											{% if review.category_id == review.category_id %}
+												{% if review.id == second_Review.id %}
+													<option value="{{review.id}}" selected dir="ltr">{{review.name}}</option>
+													{% else %}
+													<option value="{{review.id}}" dir="ltr">{{review.name}}</option>
+					   							{% endif %}
+											{% endif %}
+										{% endfor %}
+									{% else %}
+										<option class="form-control" selected disabled hidden>اختر المنتج</option>
+										{% for review in all_reviews %}
+											<option value="{{review.id}}" dir="ltr">{{review.name}}</option>
+										{% endfor %}
+									{% endif %}
+								</select>
+							</th>
+						<tr dir="rtl">
+							<th scope="row" colspan="3" class="text-center"><button class="row btn btn-primary" type="submit" name="button" style="margin: 10px auto; font-size: 20px;">قم بالمقارنة</button>
+							</th>
+						</tr>
+							<tr dir="rtl">
+								<th scope="col" class="text-right" style="font-size: 18px;">الاسم</th>
+								{% if first_Review %}
+									<th scope="col" dir="ltr">{{first_Review.name}}</th>
+								{% else %}
+									<th scope="col" dir="ltr">-</th>
+								{% endif %}
+								{% if second_Review %}
+									<th scope="col" dir="ltr">{{second_Review.name}}</th>
+								{% else %}
+									<th scope="col" dir="ltr">-</th>
+								{% endif %}
+							</tr>
+						</thead>
+						<tbody>
+							<tr dir="rtl">
+								<th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">الشاشة</th>
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" class="text-right" style="font-size: 18px;">حجم الشاشة</th>
+								{% if firstCompareLaptops %}
+									{% if firstCompareLaptops.screen_size %}
+										<td dir="ltr">{{ firstCompareLaptops.screen_size }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+
+								{% if secondCompareLaptops %}
+									{% if secondCompareLaptops.screen_size %}
+										<td dir="ltr">{{ secondCompareLaptops.screen_size }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" class="text-right" style="font-size: 18px;">نوع الشاشة</th>
+								{% if firstCompareLaptops %}
+									{% if firstCompareLaptops.screen_type %}
+										<td dir="ltr">{{ firstCompareLaptops.screen_type }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+
+								{% if secondCompareLaptops %}
+									{% if secondCompareLaptops.screen_type %}
+										<td dir="ltr">{{ secondCompareLaptops.screen_type }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" class="text-right" style="font-size: 18px;">دقة الشاشة</th>
+								{% if firstCompareLaptops %}
+									{% if firstCompareLaptops.screen_resolution %}
+										<td dir="ltr">{{ firstCompareLaptops.screen_resolution }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+
+								{% if secondCompareLaptops %}
+									{% if secondCompareLaptops.screen_resolution %}
+										<td dir="ltr">{{ secondCompareLaptops.screen_resolution }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">السعة التخزينية</th>
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" class="text-right" style="font-size: 18px;">سعات التخزين</th>
+								{% if firstCompareLaptops %}
+									{% if firstCompareLaptops.storage_space %}
+										<td dir="ltr">{{ firstCompareLaptops.storage_space }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+
+								{% if secondCompareLaptops %}
+									{% if secondCompareLaptops.storage_space %}
+										<td dir="ltr">{{ secondCompareLaptops.storage_space }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" class="text-right" style="font-size: 18px;">نوع الهارديسك</th>
+								{% if firstCompareLaptops %}
+									{% if firstCompareLaptops.hard_disk_type %}
+										<td dir="ltr">{{ firstCompareLaptops.hard_disk_type }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+
+								{% if secondCompareLaptops %}
+									{% if secondCompareLaptops.hard_disk_type %}
+										<td dir="ltr">{{ secondCompareLaptops.hard_disk_type }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">البطارية</th>
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" class="text-right" style="font-size: 18px;">عمر البطارية</th>
+								{% if firstCompareLaptops %}
+									{% if firstCompareLaptops.battery_life %}
+										<td dir="ltr">{{ firstCompareLaptops.battery_life }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+
+								{% if secondCompareLaptops %}
+									{% if secondCompareLaptops.battery_life %}
+										<td dir="ltr">{{ secondCompareLaptops.battery_life }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">التصميم</th>
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" class="text-right" style="font-size: 18px;">سمك الجهاز</th>
+								{% if firstCompareLaptops %}
+									{% if firstCompareLaptops.thickness %}
+										<td dir="ltr">{{ firstCompareLaptops.thickness }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+
+								{% if secondCompareLaptops %}
+									{% if secondCompareLaptops.thickness %}
+										<td dir="ltr">{{ secondCompareLaptops.thickness }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" class="text-right" style="font-size: 18px;">وزن الجهاز</th>
+								{% if firstCompareLaptops %}
+									{% if firstCompareLaptops.weight %}
+										<td dir="ltr">{{ firstCompareLaptops.weight }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+
+								{% if secondCompareLaptops %}
+									{% if secondCompareLaptops.weight %}
+										<td dir="ltr">{{ secondCompareLaptops.weight }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" class="text-right" style="font-size: 18px;">الالوان المتوفرة</th>
+								{% if firstCompareLaptops %}
+									{% if firstCompareLaptops.colors %}
+										<td dir="ltr">{{ firstCompareLaptops.colors }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+
+								{% if secondCompareLaptops %}
+									{% if secondCompareLaptops.colors %}
+										<td dir="ltr">{{ secondCompareLaptops.colors }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">منافذ الجهاز</th>
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" class="text-right" style="font-size: 18px;">المنافذ</th>
+								{% if firstCompareLaptops %}
+									{% if firstCompareLaptops.ports %}
+										<td dir="ltr">{{ firstCompareLaptops.ports }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+
+								{% if secondCompareLaptops %}
+									{% if secondCompareLaptops.ports %}
+										<td dir="ltr">{{ secondCompareLaptops.ports }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">الكاميرا</th>
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" class="text-right" style="font-size: 18px;">مواصفات الكاميرا</th>
+								{% if firstCompareLaptops %}
+									{% if firstCompareLaptops.camera_properties %}
+										<td dir="ltr">{{ firstCompareLaptops.camera_properties }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+
+								{% if secondCompareLaptops %}
+									{% if secondCompareLaptops.camera_properties %}
+										<td dir="ltr">{{ secondCompareLaptops.camera_properties }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">الاداء والمعالج</th>
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" class="text-right" style="font-size: 18px;">نوع المعالج</th>
+								{% if firstCompareLaptops %}
+									{% if firstCompareLaptops.processor_type %}
+										<td dir="ltr">{{ firstCompareLaptops.processor_type }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+
+								{% if secondCompareLaptops %}
+									{% if secondCompareLaptops.processor_type %}
+										<td dir="ltr">{{ secondCompareLaptops.processor_type }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" class="text-right" style="font-size: 18px;">تردد المعالج</th>
+								{% if firstCompareLaptops %}
+									{% if firstCompareLaptops.processor_speed %}
+										<td dir="ltr">{{ firstCompareLaptops.processor_speed }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+
+								{% if secondCompareLaptops %}
+									{% if secondCompareLaptops.processor_speed %}
+										<td dir="ltr">{{ secondCompareLaptops.processor_speed }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" class="text-right" style="font-size: 18px;">ذاكرة الوصول العشوائي</th>
+								{% if firstCompareLaptops %}
+									{% if firstCompareLaptops.ram %}
+										<td dir="ltr">{{ firstCompareLaptops.ram }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+
+								{% if secondCompareLaptops %}
+									{% if secondCompareLaptops.ram %}
+										<td dir="ltr">{{ secondCompareLaptops.ram }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" class="text-right" style="font-size: 18px;">معالج الرسوميات</th>
+								{% if firstCompareLaptops %}
+									{% if firstCompareLaptops.graphics_processor %}
+										<td dir="ltr">{{ firstCompareLaptops.graphics_processor }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+
+								{% if secondCompareLaptops %}
+									{% if secondCompareLaptops.graphics_processor %}
+										<td dir="ltr">{{ secondCompareLaptops.graphics_processor }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">الامان</th>
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" class="text-right" style="font-size: 18px;">طرق التأمين</th>
+								{% if firstCompareLaptops %}
+									{% if firstCompareLaptops.security %}
+										<td dir="ltr">{{ firstCompareLaptops.security }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+
+								{% if secondCompareLaptops %}
+									{% if secondCompareLaptops.security %}
+										<td dir="ltr">{{ secondCompareLaptops.security }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">نظام التشغيل</th>
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" class="text-right" style="font-size: 18px;">نظام التشغيل</th>
+								{% if firstCompareLaptops %}
+									{% if firstCompareLaptops.os %}
+										<td dir="ltr">{{ firstCompareLaptops.os }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+
+								{% if secondCompareLaptops %}
+									{% if secondCompareLaptops.os %}
+										<td dir="ltr">{{ secondCompareLaptops.os }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" colspan="3" style="background: #EEE; font-size: 22px;" class="text-right">الاتصال اللاسلكي</th>
+							</tr>
+							<tr dir="rtl">
+								<th scope="row" class="text-right" style="font-size: 18px;">طرق الاتصال اللاسلكي</th>
+								{% if firstCompareLaptops %}
+									{% if firstCompareLaptops.wireless_connection %}
+										<td dir="ltr">{{ firstCompareLaptops.wireless_connection }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+
+								{% if secondCompareLaptops %}
+									{% if secondCompareLaptops.wireless_connection %}
+										<td dir="ltr">{{ secondCompareLaptops.wireless_connection }}</td>
+									{% else %}
+										<td dir="ltr">-</td>
+									{% endif %}
+								{% else %}
+									<td dir="ltr">-</td>
+								{% endif %}
+							</tr>
+
+						</tbody>
+					</table>
+						{% endif %}
+				</form>
+        </div>
+				</div>
+				<div class="col-md-4">
+					<!-- social widget -->
+					<div class="aside-widget">
+						<div class="section-title">
+							<h2 class="title" style="font-size: 22px;">Social Media</h2>
+						</div>
+						<div class="social-widget">
+							<ul>
+								<li>
+									<a href="https://www.facebook.com/LogamyTech/" class="facebook" target="_blank">
+										<i class="fa fa-facebook"></i>
+										<span>4.7K<br>Followers</span>
+									</a>
+								</li>
+								<li>
+									<a href="https://twitter.com/LogamyTech/" class="twitter" target="_blank">
+										<i class="fa fa-twitter"></i>
+										<span>2.7K<br>Followers</span>
+									</a>
+								</li>
+								<li>
+									<a href="https://www.youtube.com/channel/UCLIpr82f48yYeTFVoW-FJfw" class="youtube" target="_blank">
+										<i class="fa fa-youtube"></i>
+										<span>5K<br>Subscribes</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- /social widget -->
+
+					<!-- newsletter widget -->
+					<div class="aside-widget">
+						<h3 class="footer-title" style="font-size: 22px;">الاشتراك في القائمة البريدية</h3>
+						<div class="newsletter-widget">
+							<form action="{{url_for('mailList')}}" method="POST" enctype="multipart/form-data">
+								<p>اشترك الآن ليصلك جديدنا من المراجعات والمقالات والعروض المميزة.</p>
+								<input class="input" type="email" name="email" placeholder="قم بإدخال الايميل الخاص بك">
+								<button class="btn btn-primary" type="submit" style="font-size: 20px; border:none; font-weight: bold;">اشترك الآن</button>
+							</form>
+						</div>
+					</div>
+					</div>
+					<!-- /newsletter widget -->
+				</div>
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /SECTION -->
+
+{% endblock %}
+

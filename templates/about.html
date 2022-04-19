@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" dir="rtl">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+	<!-- SECTION -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-5">
+					<div class="section-row">
+						<div class="section-title">
+							<h2 class="title" style="font-size: 22px;">ما هو موقع لوجامي</h2>
+						</div>
+						<p style="font-size: 18px;">موقع لوجامي للتقنية هو موقع متخصص في مجال التكنلوجيا حيث يقدم للقارئ كل ما يخص هذا المجال بصورة مبسطة جدا تمكن غير المتخصص في هذا المجال من ادراك كل ما يرغب بمعرفته حول الاجهزة التي يرغب في شرائها ليتأكد من أن جميع الاجهزة تخدم الاغراض التي من اجلها قام باختيار هذه الاجهزة.</p>
+						<blockquote class="blockquote">
+							<p style="font-size: 18px;">أرجو ان ينال موقعنا اعجابكم كما ارجو ان تجدو في موقعنا كل ما هو مفيد لكم في المجال التقني وأود ان انوه انه اذا كان لديكم اي استفسارات او ملاحظات حول موقعنا فأرجو التواصل معنا عبر صفحة "اتصل بنا".<br>كما نشكركم من اعماق قلوبنا على زيارتكم لموقعنا والثقة بما نقدمه من خدمات في المجال التقني.</p>
+							<footer class="blockquote-footer" style="font-size: 20px;">فريق لوجامي</footer>
+						</blockquote>
+					</div>
+				</div>
+				<div class="col-md-7">
+					<div class="section-row">
+						<div class="section-title">
+							<h2 class="title" style="font-size: 22px;">خدماتنا</h2>
+						</div>
+						<p style="font-size: 18px;">نحن نوفر لك العديد من الخدمات التي تسهل عليك اختيار المنتج المناسب عن طريق الاطلاع على مراجعاتنا حول الأجهز المختلفة من ال(هواتف ذكية - لابتوبات - وغيرها).</p>
+						<p style="font-size: 18px;">وايضا نوفر خدمة تساعدك في شراء الجهاز الذي ترغب به باقل سعر ممكن عن طريق مقارنة اسعار الجهاز من العديد من المتاجر الإلكترونية مثل (souq.com وamazon وebay وغيرها). ومن الأدوات الأخرى التي ستساعدك في مقارنة الاسعار هي عن طريق تخصيص اللون والسعة التخزينية وغيرها من الاختيارات المتعددة.
+
+وايضا نقدم اخر الاخبار في المجال التقني لتكون ملم بكل ما هو جديد.</p>
+					</div>
+				</div>
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /SECTION -->
+{% endblock %}

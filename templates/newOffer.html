@@ -1,0 +1,111 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+<div style="position: relative; background: white; padding: 10px; margin: 40px auto; font-size: 26px;">
+
+	<form class="my-5" action="{{url_for('newOffer')}}" method="POST" enctype="multipart/form-data" style="border: 2px solid gray; padding: 20px;">
+		<fieldset class="form-group">
+      <legend class="border-bottom mb-4"><h3 style="font-size: 28px; text-align: center; font-weight: bold;">إضافة عرض جديد</h3></legend>
+
+     		<div class="form-group col-md-12">
+                <label class="form-control-label">رابط الصورة</label>
+                <!-- <label class="text-muted">File Browser</label><input class="custom-file-input" type="file" name="Image" id="customFile" ><label class="custom-file-label" for="customFile"></label> -->
+				<input class="form-control form-control-lg" type="text" name="Image">
+			</div>
+
+	      		<div class="form-group col-md-12">
+					<label class="form-control-label">الإسم باللغة الانجليزية</label>
+					<input class="form-control form-control-lg" type="text" name="Name">
+				</div>
+				<div class="form-group col-md-12">
+					<label class="form-control-label">الإسم باللغة العربية</label>
+					<input class="form-control form-control-lg" type="text" name="Name_ar">
+				</div>
+			<div class="row">
+				<div class="form-group col-md-6">
+	                <label class="form-control-label">السعر</label>
+	                <input class="form-control form-control-lg" type="text" name="Price">
+	            </div>
+				<div class="form-group col-md-6">
+					<label class="form-control-label">رابط المنتج</label>
+					<input class="form-control form-control-lg" type="text" name="Url">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label class="form-control-label">اللون</label>
+					<select class="form-control" name="Color">
+						<option class="form-control" selected disabled hidden>اختر اللون</option>
+						{% for color in all_colors %}
+							<option value="{{color.name}}">{{color.name_ar}}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="form-group col-md-6">
+					<label class="form-control-label">السعة التخزينية</label>
+					<select class="form-control" name="Storage_Space">
+						<option class="form-control" selected disabled hidden>اختر السعة التخزينية</option>
+						{% for storage in all_storages %}
+							<option value="{{storage.name}}">{{storage.name}}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label class="form-control-label">الفئة</label>
+					<select class="form-control" name="Category">
+						<option class="form-control" selected disabled hidden>اختر الفئة</option>
+						{% for category in all_categories %}
+							<option value="{{category.id}}">{{category.name_ar}}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="form-group col-md-6">
+					<label class="form-control-label">العلامة التجارية</label>
+					<select class="form-control" name="Brand">
+						<option class="form-control" selected disabled hidden>اختر العلامة التجارية</option>
+						{% for brand in all_brands %}
+							<option value="{{brand.id}}">{{brand.name_ar}}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+			<div class="row">
+                <div class="form-group col-md-6">
+                    <label class="form-control-label">المنتج</label>
+                    <select class="form-control" name="Review">
+                        <option class="form-control" selected disabled hidden>اختر المنتج</option>
+                        {% for review in all_reviews %}
+                            <option value="{{review.id}}">{{review.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+				<div class="form-group col-md-6">
+					<label class="form-control-label">المتجر</label>
+					<select class="form-control" name="Market">
+						<option class="form-control" selected disabled hidden>اختر المتجر</option>
+						{% for market in all_markets %}
+							<option value="{{market.id}}">{{market.name}}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+
+
+		</fieldset>
+		<div class="form-group">
+			{% if current_user.is_authenticated %}
+            	{% if current_user.new_offer == 'True' %}
+					<input class="btn btn-success" type="submit" value="إضافة" style="font-size: 20px;">
+				{% endif %}
+			{% endif %}
+            <a class="btn btn-secondary" href="{{url_for('offers')}}" style="font-size: 20px;">إلغاء</a>
+		</div>
+	</form>
+</div>
+{% endblock %}

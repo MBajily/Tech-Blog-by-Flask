@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" dir="rtl">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+	<!-- SECTION -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-8">
+					<!-- <div class="section-row">
+						<div class="section-title">
+							<h2 class="title">Contact Information</h2>
+						</div>
+						<p>Malis debet quo et, eam an lorem quaestio. Mea ex quod facer decore, eu nam mazim postea. Eu deleniti pertinacia ius. Ad elitr latine eam, ius sanctus eleifend no, cu primis graecis comprehensam eum. Ne vim prompta consectetuer, etiam signiferumque ea eum.</p>
+						<ul class="contact">
+							<li><i class="fa fa-phone"></i> 202-555-0194</li>
+							<li><i class="fa fa-envelope"></i> <a href="#">callie@email.com</a></li>
+							<li><i class="fa fa-map-marker"></i> 123 6th St.Melbourne, FL 32904</li>
+						</ul>
+					</div> -->
+
+					<div class="section-row">
+						<div class="section-title">
+							<h2 class="title" style="font-size: 22px;">تواصل معنا</h2>
+						</div>
+						<form id="form" action="{{url_for('contact')}}" method="POST">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<input class="input" type="text" name="full_name" placeholder="الاسم">
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<input class="input" type="email" name="email" placeholder="الايميل">
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<input class="input" type="text" name="title" placeholder="العنوان">
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<textarea class="input" name="message" placeholder="الرسالة"></textarea>
+									</div>
+									<button class="primary-button">ارسل</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<!-- social widget -->
+					<div class="aside-widget">
+						<div class="section-title">
+							<h2 class="title" style="font-size: 22px;">Social Media</h2>
+						</div>
+						<div class="social-widget">
+							<ul>
+								<li>
+									<a href="https://www.facebook.com/LogamyTech/" class="facebook" target="_blank">
+										<i class="fa fa-facebook"></i>
+										<span>4.7K<br>Followers</span>
+									</a>
+								</li>
+								<li>
+									<a href="https://twitter.com/LogamyTech/" class="twitter" target="_blank">
+										<i class="fa fa-twitter"></i>
+										<span>2.7K<br>Followers</span>
+									</a>
+								</li>
+								<li>
+									<a href="https://www.youtube.com/channel/UCLIpr82f48yYeTFVoW-FJfw" class="youtube" target="_blank">
+										<i class="fa fa-youtube"></i>
+										<span>5K<br>Subscribes</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- /social widget -->
+
+					<!-- newsletter widget -->
+					<div class="aside-widget">
+						<h3 class="footer-title" style="font-size: 22px;">الاشتراك في القائمة البريدية</h3>
+						<div class="newsletter-widget">
+							<form action="{{url_for('mailList')}}" method="POST" enctype="multipart/form-data">
+								<p>اشترك الآن ليصلك جديدنا من المراجعات والمقالات والعروض المميزة.</p>
+								<input class="input" type="email" name="email" placeholder="قم بإدخال الايميل الخاص بك">
+								<button class="btn btn-primary" type="submit" style="font-size: 20px; border:none; font-weight: bold;">اشترك الآن</button>
+							</form>
+						</div>
+					</div>
+					</div>
+					<!-- /newsletter widget -->
+				</div>
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /SECTION -->
+
+{% endblock %}
+
