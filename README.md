@@ -1,5 +1,4 @@
 # Technology website (articals, store, reviews, news)
-#### Video Demo:  https://www.youtube.com/watch?v=cVzVs85fato
 #### Description: 
 
 	The project in general is a website that serves people in the field of technology by providing them with the latest articles and news and making some reviews of the latest laptops and smartphones, and also the most characteristic of this site is to help visitors find the best offers for laptops and smartphones from Amazon and eBay, let me talk about a picture More detailed information about each section of the site:
